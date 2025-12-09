@@ -16,4 +16,6 @@ import FormLogin from '../molecules/FormLogin.vue'
 import LibraryNavabar from '../molecules/LibraryNavabar.vue'
 </script>
 
-<style scoped></style>
+<style scoped>
+@import '@/assets/login.css';
+</style>
