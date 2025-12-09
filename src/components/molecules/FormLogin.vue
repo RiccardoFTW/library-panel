@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import InputField from '../atoms/InputField.vue'
-import Button from '../atoms/Button.vue'
+import Button from '../atoms/ButtonForm.vue'
 </script>
 
 <style scoped></style>
