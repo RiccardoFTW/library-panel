@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PublicNavbar from '../molecules/PublicNavbar.vue'
+import PublicNavbar from '@/components/molecules/PublicNavbar.vue'
 </script>
 
 <template>

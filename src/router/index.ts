@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import AuthLayout from '../layouts/AuthLayout.vue'
-import DefaultLayout from '../layouts/DefaultLayout.vue'
+import AuthLayout from '@/layouts/AuthLayout.vue'
+import PublicLayout from '@/layouts/PublicLayout.vue'
 
 import LoginView from '@/components/views/LoginView.vue'
 import RegisterView from '@/components/views/RegisterView.vue'
@@ -16,17 +16,17 @@ const router = createRouter({
   routes: [
     {
       path: '/login',
-      component: AuthLayout,
+      component: PublicLayout,
       children: [{ path: '', name: 'login', component: LoginView }],
     },
     {
       path: '/register',
-      component: AuthLayout, // 👉 layout applicato
+      component: PublicLayout,
       children: [{ path: '', name: 'register', component: RegisterView }],
     },
     {
       path: '/',
-      component: DefaultLayout, // 👉 layout applicato
+      component: AuthLayout,
       children: [
         { path: '', name: 'home', component: Home },
         { path: 'about', name: 'about', component: About },
@@ -34,10 +34,9 @@ const router = createRouter({
     },
     {
       path: '/books',
-      component: DefaultLayout, // 👉 layout applicato
+      component: AuthLayout,
       children: [
         { path: '', name: 'books', component: BooksPage },
-        // 👉 pagina dinamica
         { path: ':id', name: 'books.show', component: BookPage },
       ],
     },

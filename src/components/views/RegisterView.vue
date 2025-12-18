@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import PublicLayout from '../layouts/PublicLayout.vue'
-import RegistrationForm from '../molecules/RegistrationForm.vue'
+import RegistrationForm from '@/components/molecules/RegistrationForm.vue'
 </script>
 
 <template>

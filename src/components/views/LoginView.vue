@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import PublicLayout from '../layouts/PublicLayout.vue'
-import FormLogin from '../molecules/FormLogin.vue'
+import FormLogin from '@/components/molecules/FormLogin.vue'
 </script>
 
 <template>

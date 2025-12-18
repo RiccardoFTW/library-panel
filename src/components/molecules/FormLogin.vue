@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import InputField from '../atoms/InputField.vue'
-import Button from '../atoms/ButtonForm.vue'
+import InputField from '@/components/atoms/InputField.vue'
+import Button from '@/components/atoms/ButtonForm.vue'
 import { login } from '@/services/AuthService'
 
 const email = ref('')

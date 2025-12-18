@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
-import InputField from '../atoms/InputField.vue'
-import Button from '../atoms/ButtonForm.vue'
+import InputField from '@/components/atoms/InputField.vue'
+import Button from '@/components/atoms/ButtonForm.vue'
 
 const formData = reactive({
   username: '',
