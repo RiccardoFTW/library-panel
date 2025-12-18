@@ -1,5 +1,18 @@
+<script setup lang="ts">
+import { reactive } from 'vue'
+import InputField from '../atoms/InputField.vue'
+import Button from '../atoms/ButtonForm.vue'
+
+const formData = reactive({
+  username: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+})
+</script>
+
 <template>
-  <form class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+  <form class="w-full p-8">
     <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Registrati</h2>
 
     <InputField
@@ -33,18 +46,5 @@
     <Button type="submit" text="Registrati" />
   </form>
 </template>
-
-<script setup lang="ts">
-import { reactive } from 'vue'
-import InputField from '../atoms/InputField.vue'
-import Button from '../atoms/ButtonForm.vue'
-
-const formData = reactive({
-  username: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-})
-</script>
 
 <style scoped></style>

@@ -1,11 +1,3 @@
-<template>
-  <button
-    class="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors font-medium"
-  >
-    <slot>{{ text }}</slot>
-  </button>
-</template>
-
 <script setup lang="ts">
 defineProps({
   type: {
@@ -18,5 +10,13 @@ defineProps({
   },
 })
 </script>
+
+<template>
+  <button
+    class="w-full bg-black text-gray-100 px-4 py-2 rounded-md hover:bg-blue-600 transition-colors font-medium"
+  >
+    <slot>{{ text }}</slot>
+  </button>
+</template>
 
 <style scoped></style>

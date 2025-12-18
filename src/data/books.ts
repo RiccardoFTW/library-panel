@@ -1,0 +1,133 @@
+export interface Book {
+  id: number
+  title: string
+  authors: string[]
+  year: number
+  genre: string
+  pages: number
+  price: number
+  img: string
+}
+
+export const books: Book[] = [
+  {
+    id: 1,
+    title: 'Il Nome della Rosa',
+    authors: ['Umberto Eco'],
+    year: 1980,
+    pages: 503,
+    price: 14.5,
+    genre: 'Romanzo storico',
+    img: '',
+  },
+  {
+    id: 2,
+    title: 'Se questo è un uomo',
+    authors: ['Primo Levi'],
+    year: 1947,
+    pages: 174,
+    price: 12.0,
+    genre: 'Memorialistica',
+    img: '',
+  },
+  {
+    id: 3,
+    title: 'La Divina Commedia',
+    authors: ['Dante Alighieri'],
+    year: 1321,
+    pages: 798,
+    price: 22.0,
+    genre: 'Poesia epica',
+    img: '',
+  },
+  {
+    id: 4,
+    title: '1984',
+    authors: ['George Orwell'],
+    year: 1949,
+    pages: 328,
+    price: 13.5,
+    genre: 'Distopia',
+    img: '',
+  },
+  {
+    id: 5,
+    title: 'I Promessi Sposi',
+    authors: ['Alessandro Manzoni'],
+    year: 1827,
+    pages: 720,
+    price: 15.0,
+    genre: 'Romanzo storico',
+    img: '',
+  },
+  {
+    id: 6,
+    title: 'Il Signore degli Anelli',
+    authors: ['J.R.R. Tolkien'],
+    year: 1954,
+    pages: 1178,
+    price: 25.0,
+    genre: 'Fantasy',
+    img: '',
+  },
+  {
+    id: 7,
+    title: 'Harry Potter e la Pietra Filosofale',
+    authors: ['J.K. Rowling'],
+    year: 1997,
+    pages: 309,
+    price: 16.0,
+    genre: 'Fantasy',
+    img: '',
+  },
+  {
+    id: 8,
+    title: 'Il Piccolo Principe',
+    authors: ['Antoine de Saint-Exupéry'],
+    year: 1943,
+    pages: 96,
+    price: 8.5,
+    genre: 'Favola filosofica',
+    img: '',
+  },
+  {
+    id: 9,
+    title: 'Orgoglio e Pregiudizio',
+    authors: ['Jane Austen'],
+    year: 1813,
+    pages: 96,
+    price: 8.5,
+    genre: 'Romanzo sentimentale',
+    img: '',
+  },
+  {
+    id: 10,
+    title: "Cent'anni di solitudine",
+    authors: ['Gabriel García Márquez'],
+    year: 1967,
+    pages: 417,
+    price: 18.0,
+    genre: 'Realismo magico',
+    img: '',
+  },
+  {
+    id: 11,
+    title: 'Il Codice Da Vinci',
+    authors: ['Dan Brown'],
+    year: 2003,
+    pages: 417,
+    price: 18.0,
+    genre: 'Thriller',
+    img: '',
+  },
+  {
+    id: 12,
+    title: 'Fondazione',
+    authors: ['Isaac Asimov'],
+    year: 1951,
+    pages: 255,
+    price: 15.5,
+    genre: 'Fantascienza',
+    img: '',
+  },
+]
