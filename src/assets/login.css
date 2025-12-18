@@ -1,0 +1,13 @@
+@reference "tailwindcss";
+
+.card {
+  @apply p-4 bg-red-500;
+
+  h1 {
+    @apply text-xl font-bold;
+  }
+
+  .btn {
+    @apply mt-2 text-blue-500;
+  }
+}

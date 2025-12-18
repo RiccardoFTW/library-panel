@@ -17,7 +17,6 @@ defineProps({
     default: '',
   },
 })
-
 defineEmits(['update:modelValue'])
 </script>
 
