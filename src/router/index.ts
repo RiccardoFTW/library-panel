@@ -3,8 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import AuthLayout from '@/layouts/AuthLayout.vue'
 import PublicLayout from '@/layouts/PublicLayout.vue'
 
-import LoginView from '@/components/views/LoginView.vue'
-import RegisterView from '@/components/views/RegisterView.vue'
+import LoginView from '@/components/views/auth/LoginView.vue'
+import RegisterView from '@/components/views/auth/RegisterView.vue'
 
 import Home from '@/components/views/HomeView.vue'
 import About from '@/components/views/AboutView.vue'

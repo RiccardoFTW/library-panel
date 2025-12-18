@@ -1,0 +1,281 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Feltrinelli S.p.A. - Sesto Salvatore",
+      "phoneNumber": "097 166 3352",
+      "email": "egisto43@pagano.com",
+      "customer": {
+        "id": 1,
+        "name": "Feltrinelli S.p.A.",
+        "mine": null
+      },
+      "address": {
+        "id": 1,
+        "city": "Firenze",
+        "province": "MI",
+        "country": "Italia",
+        "street": "Via Via Giordano",
+        "street_number": "6"
+      },
+      "quantity": null
+    },
+    {
+      "id": 2,
+      "name": "Feltrinelli S.p.A. - Borgo Domenico ligure",
+      "phoneNumber": "+30 562 60846481",
+      "email": "daniela59@martini.it",
+      "customer": {
+        "id": 1,
+        "name": "Feltrinelli S.p.A.",
+        "mine": null
+      },
+      "address": {
+        "id": 2,
+        "city": "Bologna",
+        "province": "RM",
+        "country": "Italia",
+        "street": "Via Contrada Harry",
+        "street_number": "105"
+      },
+      "quantity": null
+    },
+    {
+      "id": 3,
+      "name": "Feltrinelli S.p.A. - Osea nell'emilia",
+      "phoneNumber": "+85 746 14 54 3145",
+      "email": "davide09@deluca.it",
+      "customer": {
+        "id": 1,
+        "name": "Feltrinelli S.p.A.",
+        "mine": null
+      },
+      "address": {
+        "id": 3,
+        "city": "Milano",
+        "province": "FI",
+        "country": "Italia",
+        "street": "Via Contrada Ferrari",
+        "street_number": "257"
+      },
+      "quantity": null
+    },
+    {
+      "id": 4,
+      "name": "Feltrinelli S.p.A. - Pagano laziale",
+      "phoneNumber": "+06 2027 1389653",
+      "email": "maruska.gallo@fontana.org",
+      "customer": {
+        "id": 1,
+        "name": "Feltrinelli S.p.A.",
+        "mine": null
+      },
+      "address": {
+        "id": 4,
+        "city": "Firenze",
+        "province": "MI",
+        "country": "Italia",
+        "street": "Via Strada Alfonso",
+        "street_number": "80"
+      },
+      "quantity": null
+    },
+    {
+      "id": 5,
+      "name": "Feltrinelli S.p.A. - De luca del friuli",
+      "phoneNumber": "386 870 398",
+      "email": "giacinto40@longo.com",
+      "customer": {
+        "id": 1,
+        "name": "Feltrinelli S.p.A.",
+        "mine": null
+      },
+      "address": {
+        "id": 5,
+        "city": "Roma",
+        "province": "BO",
+        "country": "Italia",
+        "street": "Via Piazza Esposito",
+        "street_number": "39"
+      },
+      "quantity": null
+    },
+    {
+      "id": 6,
+      "name": "Mondadori Store - Settimo Sasha",
+      "phoneNumber": "+42 242 83 94 9168",
+      "email": "cconti@marchetti.it",
+      "customer": {
+        "id": 2,
+        "name": "Mondadori Store",
+        "mine": null
+      },
+      "address": {
+        "id": 6,
+        "city": "Bologna",
+        "province": "FI",
+        "country": "Italia",
+        "street": "Via Piazza Marcello",
+        "street_number": "1"
+      },
+      "quantity": null
+    },
+    {
+      "id": 7,
+      "name": "Mondadori Store - Quarto Teresa",
+      "phoneNumber": "062 705 3161",
+      "email": "demis01@colombo.com",
+      "customer": {
+        "id": 2,
+        "name": "Mondadori Store",
+        "mine": null
+      },
+      "address": {
+        "id": 7,
+        "city": "Firenze",
+        "province": "FI",
+        "country": "Italia",
+        "street": "Via Via Terzo",
+        "street_number": "1"
+      },
+      "quantity": null
+    },
+    {
+      "id": 8,
+      "name": "Mondadori Store - Quarto Maruska",
+      "phoneNumber": "+39 092 629 539",
+      "email": "clodovea.morelli@barbieri.it",
+      "customer": {
+        "id": 2,
+        "name": "Mondadori Store",
+        "mine": null
+      },
+      "address": {
+        "id": 8,
+        "city": "Napoli",
+        "province": "RM",
+        "country": "Italia",
+        "street": "Via Incrocio Leone",
+        "street_number": "621"
+      },
+      "quantity": null
+    },
+    {
+      "id": 9,
+      "name": "Mondadori Store - Testa a mare",
+      "phoneNumber": "+24 442 8267473",
+      "email": "jole42@ferrara.com",
+      "customer": {
+        "id": 2,
+        "name": "Mondadori Store",
+        "mine": null
+      },
+      "address": {
+        "id": 9,
+        "city": "Milano",
+        "province": "NA",
+        "country": "Italia",
+        "street": "Via Via Piras",
+        "street_number": "1"
+      },
+      "quantity": null
+    },
+    {
+      "id": 10,
+      "name": "Mondadori Store - Quarto Grazia umbro",
+      "phoneNumber": "+39 001 885 930",
+      "email": "barone.giuliana@desantis.com",
+      "customer": {
+        "id": 2,
+        "name": "Mondadori Store",
+        "mine": null
+      },
+      "address": {
+        "id": 10,
+        "city": "Roma",
+        "province": "MI",
+        "country": "Italia",
+        "street": "Via Incrocio Naomi",
+        "street_number": "795"
+      },
+      "quantity": null
+    }
+  ],
+  "links": {
+    "first": "http://127.0.0.1:8000/api/v1/locations?page=1",
+    "last": "http://127.0.0.1:8000/api/v1/locations?page=8",
+    "prev": null,
+    "next": "http://127.0.0.1:8000/api/v1/locations?page=2"
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "last_page": 8,
+    "links": [
+      {
+        "url": null,
+        "label": "pagination.previous",
+        "page": null,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/locations?page=1",
+        "label": "1",
+        "page": 1,
+        "active": true
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/locations?page=2",
+        "label": "2",
+        "page": 2,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/locations?page=3",
+        "label": "3",
+        "page": 3,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/locations?page=4",
+        "label": "4",
+        "page": 4,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/locations?page=5",
+        "label": "5",
+        "page": 5,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/locations?page=6",
+        "label": "6",
+        "page": 6,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/locations?page=7",
+        "label": "7",
+        "page": 7,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/locations?page=8",
+        "label": "8",
+        "page": 8,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/locations?page=2",
+        "label": "pagination.next",
+        "page": 2,
+        "active": false
+      }
+    ],
+    "path": "http://127.0.0.1:8000/api/v1/locations",
+    "per_page": 10,
+    "to": 10,
+    "total": 75
+  }
+}

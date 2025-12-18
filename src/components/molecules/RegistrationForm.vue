@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref, reactive } from 'vue'
+import { signup } from '@/services/AuthService'
 import InputField from '@/components/atoms/InputField.vue'
 import Button from '@/components/atoms/ButtonForm.vue'
 
@@ -9,10 +10,32 @@ const formData = reactive({
   password: '',
   confirmPassword: '',
 })
+
+const errorMessage = ref('')
+const loading = ref(false)
+
+// Submit
+const handleSubmit = () => {
+  errorMessage.value = ''
+  loading.value = true
+
+  signup(formData)
+    .then((response) => {
+      console.log('Registrazione riuscita', response.data)
+      // Reindirizza o esegui altre azioni dopo la registrazione riuscita
+    })
+    .catch((error) => {
+      console.log('Errore durante la registrazione', error)
+      errorMessage.value = 'Non è stato possibile completare la registrazione'
+    })
+    .finally(() => {
+      loading.value = false
+    })
+}
 </script>
 
 <template>
-  <form class="w-full p-8">
+  <form @submit.prevent="handleSubmit" class="w-full p-8">
     <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Registrati</h2>
 
     <InputField

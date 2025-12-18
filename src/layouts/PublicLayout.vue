@@ -7,11 +7,9 @@ import PublicNavbar from '@/components/molecules/PublicNavbar.vue'
     class="min-h-screen flex items-center justify-center bg-[linear-gradient(135deg,#f5f7fa_0%,#c3cfe2_100%)]"
   >
     <div class="w-full max-w-md">
-      <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+      <div class="bg-white rounded-lg shadow-xl">
         <PublicNavbar />
-        <div>
-          <slot></slot>
-        </div>
+        <router-view />
       </div>
     </div>
   </div>

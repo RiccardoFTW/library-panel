@@ -1,0 +1,165 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Classici della Letteratura",
+      "description": "I grandi classici che hanno segnato la storia della letteratura mondiale",
+      "publishedAt": null
+    },
+    {
+      "id": 2,
+      "name": "Fantasy Epico",
+      "description": "Avventure epiche in mondi fantastici",
+      "publishedAt": null
+    },
+    {
+      "id": 3,
+      "name": "Gialli e Noir",
+      "description": "Misteri da risolvere e storie noir avvincenti",
+      "publishedAt": null
+    },
+    {
+      "id": 4,
+      "name": "Contemporanei",
+      "description": "La narrativa del nostro tempo",
+      "publishedAt": null
+    },
+    {
+      "id": 5,
+      "name": "Horror e Thriller",
+      "description": "Storie che ti terranno con il fiato sospeso",
+      "publishedAt": null
+    },
+    {
+      "id": 6,
+      "name": "voluptas quo",
+      "description": "Quae laudantium ad odio facilis eum soluta est.",
+      "publishedAt": null
+    },
+    {
+      "id": 7,
+      "name": "non est",
+      "description": "Iusto voluptatum amet error.",
+      "publishedAt": null
+    },
+    {
+      "id": 8,
+      "name": "odit ipsum",
+      "description": "Consequatur commodi dicta eius.",
+      "publishedAt": null
+    },
+    {
+      "id": 9,
+      "name": "maiores nulla",
+      "description": "Ipsum nemo et et.",
+      "publishedAt": null
+    },
+    {
+      "id": 10,
+      "name": "vitae exercitationem",
+      "description": "Aut qui laudantium harum excepturi animi repellendus qui.",
+      "publishedAt": null
+    }
+  ],
+  "links": {
+    "first": "http://127.0.0.1:8000/api/v1/collections?page=1",
+    "last": "http://127.0.0.1:8000/api/v1/collections?page=12",
+    "prev": null,
+    "next": "http://127.0.0.1:8000/api/v1/collections?page=2"
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "last_page": 12,
+    "links": [
+      {
+        "url": null,
+        "label": "pagination.previous",
+        "page": null,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/collections?page=1",
+        "label": "1",
+        "page": 1,
+        "active": true
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/collections?page=2",
+        "label": "2",
+        "page": 2,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/collections?page=3",
+        "label": "3",
+        "page": 3,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/collections?page=4",
+        "label": "4",
+        "page": 4,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/collections?page=5",
+        "label": "5",
+        "page": 5,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/collections?page=6",
+        "label": "6",
+        "page": 6,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/collections?page=7",
+        "label": "7",
+        "page": 7,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/collections?page=8",
+        "label": "8",
+        "page": 8,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/collections?page=9",
+        "label": "9",
+        "page": 9,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/collections?page=10",
+        "label": "10",
+        "page": 10,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/collections?page=11",
+        "label": "11",
+        "page": 11,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/collections?page=12",
+        "label": "12",
+        "page": 12,
+        "active": false
+      },
+      {
+        "url": "http://127.0.0.1:8000/api/v1/collections?page=2",
+        "label": "pagination.next",
+        "page": 2,
+        "active": false
+      }
+    ],
+    "path": "http://127.0.0.1:8000/api/v1/collections",
+    "per_page": 10,
+    "to": 10,
+    "total": 115
+  }
+}
