@@ -1,14 +1,12 @@
-import axios from 'axios'
+import api, { TOKEN_KEY } from './api'
 import type { AuthResponse, LoginData, SignupData } from '../types/auth'
 
-// URL del server
-const API_URL = import.meta.env.VITE_API_URL // Spostare in .env SUBITO!
-
-// Funzione LOGIN
 export const login = async (loginData: LoginData): Promise<AuthResponse> => {
   try {
     // Chiamata POST al Server
-    const response = await axios.post(`${API_URL}/users`, loginData)
+    const response = await api.post('/login', loginData)
+
+    localStorage.setItem(TOKEN_KEY, response.data.access_token)
 
     // Risposta di successo
     return {
@@ -30,7 +28,7 @@ export const login = async (loginData: LoginData): Promise<AuthResponse> => {
 export const signup = async (signupData: SignupData): Promise<AuthResponse> => {
   try {
     // Chiamata POST al Server
-    const response = await axios.post(`${API_URL}/users`, signupData)
+    const response = await api.post('/users', signupData)
 
     // Risposta di successo
     return {
