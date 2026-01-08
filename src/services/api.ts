@@ -34,8 +34,11 @@ api.interceptors.response.use(
   (error: AxiosError) => {
     if (error.response?.status === 401) {
       localStorage.removeItem(TOKEN_KEY)
-
-      window.location.href = '/login'
+      if (typeof window !== 'undefined' && window.location?.pathname !== '/login') {
+        window.location.href = '/login'
+      }
+    } else if (error.response?.status === 422) {
+      console.error('Validation error:', error.response.data)
     }
 
     return Promise.reject(error)

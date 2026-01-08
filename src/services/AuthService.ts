@@ -4,9 +4,16 @@ import type { AuthResponse, LoginData, SignupData } from '../types/auth'
 export const login = async (loginData: LoginData): Promise<AuthResponse> => {
   try {
     // Chiamata POST al Server
-    const response = await api.post('/login', loginData)
+    const response = await api
+      .post('/login', loginData)
+      .then((res) => {
+        console.log('Login response:', res)
 
-    localStorage.setItem(TOKEN_KEY, response.data.access_token)
+        localStorage.setItem(TOKEN_KEY, response.data.access_token)
+      })
+      .catch((err) => {
+        console.error('Login error:', err)
+      })
 
     // Risposta di successo
     return {

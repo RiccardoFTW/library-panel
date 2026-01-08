@@ -20,6 +20,7 @@ const handleSubmit = async () => {
       password: password.value,
     })
 
+    // NON FARE MAI STE CAGNATE di verifiche sui messaggi!!!
     if (response.msg === 'Login effettuato con successo') {
       console.log('Login riuscito', response.data)
     } else {
