@@ -3,7 +3,7 @@ import AuthNavbar from '@/components/molecules/AuthNavbar.vue'
 </script>
 
 <template>
-  <div class="min-h-screen bg-[linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)]">
+  <div class="min-h-screen bg-[linear-gradient(135deg,#f5f7fa_0%,#c3cfe2_100%)]">
     <AuthNavbar />
     <main class="container mx-auto px-4 py-8">
       <router-view />

@@ -4,6 +4,6 @@ export interface Book {
   id: number
   title: string
   authors: Author[]
-  price: number
-  publishedAt: Date
+  price: string
+  publishedAt: string
 }
