@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import FieldError from './FieldError.vue'
+import FieldMessage from './FieldMessage.vue'
 
 defineProps({
   type: {
@@ -38,7 +38,7 @@ defineEmits(['update:modelValue'])
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
       :class="['input-field__input', { 'input-field__input--error': error }]"
     />
-    <FieldError v-if="error" :message="error" />
+    <FieldMessage v-if="error" :message="error" />
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { TOKEN_KEY } from '@/services/api'
+import { logout } from '@/services/AuthService'
 
 const router = useRouter()
 
@@ -8,8 +8,8 @@ const goToHome = () => {
   router.push({ name: 'home' })
 }
 
-const logout = () => {
-  localStorage.removeItem(TOKEN_KEY)
+const signout = async () => {
+  await logout()
   router.push({ name: 'hero' })
 }
 </script>
@@ -20,7 +20,7 @@ const logout = () => {
 
     <div class="auth-navbar__links">
       <RouterLink to="/dashboard" class="auth-navbar__link">Home</RouterLink>
-      <button type="button" class="auth-navbar__logout" @click="logout">Logout</button>
+      <button type="button" class="auth-navbar__logout" @click="signout">Logout</button>
     </div>
   </nav>
 </template>

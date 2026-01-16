@@ -9,6 +9,12 @@ export interface LoginData {
   password: string
 }
 
+export interface LogoutResponse {
+  data: unknown | null
+  msg: string
+  errors?: string[]
+}
+
 export interface SignupData {
   username: string
   email: string

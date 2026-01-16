@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { TOKEN_KEY } from '@/services/api'
+import { isAuthenticated } from '@/services/AuthService'
+import { authGuard } from '@/middlewares/auth'
 
 import AuthLayout from '@/layouts/AuthLayout.vue'
 import PublicLayout from '@/layouts/PublicLayout.vue'
@@ -40,7 +41,7 @@ const router = createRouter({
     {
       path: '/dashboard',
       component: AuthLayout,
-      meta: { requiresAuth: true },
+      meta: { middleware: [authGuard] },
       children: [
         { path: '', name: 'home', component: Home },
         { path: 'about', name: 'about', component: About },
@@ -49,7 +50,7 @@ const router = createRouter({
     {
       path: '/books',
       component: AuthLayout,
-      meta: { requiresAuth: true },
+      meta: { middleware: [authGuard] },
       children: [
         { path: '', name: 'books', component: BooksPage },
         { path: ':id', name: 'books.show', component: BookPage },
@@ -62,12 +63,9 @@ const router = createRouter({
  * NAVIGATION GUARD
  */
 router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem(TOKEN_KEY)
-  const isAuthenticated = !!token
-
-  if (to.meta.requiresAuth && !isAuthenticated) {
+  if (to.meta.requiresAuth && !isAuthenticated()) {
     next({ name: 'login' })
-  } else if (to.meta.guest && isAuthenticated) {
+  } else if (to.meta.guest && isAuthenticated()) {
     next({ name: 'home' })
   } else {
     next()
