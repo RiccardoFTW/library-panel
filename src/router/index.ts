@@ -1,8 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { TOKEN_KEY } from '@/services/api'
 
 import AuthLayout from '@/layouts/AuthLayout.vue'
 import PublicLayout from '@/layouts/PublicLayout.vue'
 
+import HeroView from '@/components/views/HeroView.vue'
 import LoginView from '@/components/views/auth/LoginView.vue'
 import RegisterView from '@/components/views/auth/RegisterView.vue'
 
@@ -14,19 +16,31 @@ import BookPage from '@/components/views/books/BookView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    // Hero
+    {
+      path: '/',
+      name: 'hero',
+      component: HeroView,
+      meta: { guest: true },
+    },
+    // Public routes (login/register)
     {
       path: '/login',
       component: PublicLayout,
+      meta: { guest: true },
       children: [{ path: '', name: 'login', component: LoginView }],
     },
     {
       path: '/register',
       component: PublicLayout,
+      meta: { guest: true },
       children: [{ path: '', name: 'register', component: RegisterView }],
     },
+    // Protected route
     {
-      path: '/',
+      path: '/dashboard',
       component: AuthLayout,
+      meta: { requiresAuth: true },
       children: [
         { path: '', name: 'home', component: Home },
         { path: 'about', name: 'about', component: About },
@@ -35,12 +49,29 @@ const router = createRouter({
     {
       path: '/books',
       component: AuthLayout,
+      meta: { requiresAuth: true },
       children: [
         { path: '', name: 'books', component: BooksPage },
         { path: ':id', name: 'books.show', component: BookPage },
       ],
     },
   ],
+})
+
+/**
+ * NAVIGATION GUARD
+ */
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem(TOKEN_KEY)
+  const isAuthenticated = !!token
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    next({ name: 'login' })
+  } else if (to.meta.guest && isAuthenticated) {
+    next({ name: 'home' })
+  } else {
+    next()
+  }
 })
 
 export default router

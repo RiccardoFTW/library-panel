@@ -4,7 +4,6 @@ defineProps<{
   modelValue: string
 }>()
 
-// Evento
 const emit = defineEmits<{
   'update:modelValue': [value: string]
 }>()

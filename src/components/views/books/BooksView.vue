@@ -1,6 +1,4 @@
-<script setup lang="ts">
-console.log('Siamo nella pagina About')
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div>

@@ -1,1 +1,57 @@
 @import 'tailwindcss';
+
+/* ==========================================================================
+   Viewport Fix
+   ========================================================================== */
+
+html,
+body,
+#app {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   CSS Variables - Library Theme
+   ========================================================================== */
+
+:root {
+  /* Color Palette - Warm, sophisticated library aesthetic */
+  --color-bg: #0d0c0b;
+  --color-bg-warm: #1a1714;
+  --color-text: #f9f777;
+  --color-text-muted: #9a928a;
+  --color-accent: #fff;
+  --color-accent-light: #e4d4a8;
+
+  /* Typography */
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Spacing */
+  --section-padding: clamp(4rem, 10vw, 8rem);
+
+  /* Transitions */
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ==========================================================================
+   Utility Classes (for animations)
+   ========================================================================== */
+
+/* Smooth will-change for animated elements */
+.will-animate {
+  will-change: transform, opacity;
+}
+
+/* GPU acceleration helper */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}

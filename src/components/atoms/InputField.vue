@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FieldError from './FieldError.vue'
+
 defineProps({
   type: {
     type: String,
@@ -16,13 +18,17 @@ defineProps({
     type: String,
     default: '',
   },
+  error: {
+    type: String,
+    default: '',
+  },
 })
 defineEmits(['update:modelValue'])
 </script>
 
 <template>
-  <div class="mb-4">
-    <label v-if="label" class="block mb-2 font-medium text-gray-700">
+  <div class="input-field">
+    <label v-if="label" class="input-field__label">
       {{ label }}
     </label>
     <input
@@ -30,7 +36,59 @@ defineEmits(['update:modelValue'])
       :placeholder="placeholder"
       :value="modelValue"
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      :class="['input-field__input', { 'input-field__input--error': error }]"
     />
+    <FieldError v-if="error" :message="error" />
   </div>
 </template>
+
+<style scoped>
+.input-field {
+  margin-bottom: 1.25rem;
+}
+
+.input-field__label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.input-field__input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid rgba(245, 240, 232, 0.15);
+  border-radius: 0.75rem;
+  outline: none;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.input-field__input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.6;
+}
+
+.input-field__input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.15);
+}
+
+.input-field__input:hover:not(:focus) {
+  border-color: rgba(245, 240, 232, 0.3);
+}
+
+.input-field__input--error {
+  border-color: #f87171;
+}
+
+.input-field__input--error:focus {
+  border-color: #f87171;
+  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.15);
+}
+</style>
