@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, type Component } from 'vue'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import bookWebp from '@/assets/images/book.webp'
@@ -15,6 +15,12 @@ const overlayRef = ref<HTMLElement | null>(null)
 const titleRef = ref<HTMLElement | null>(null)
 const ctaRef = ref<HTMLElement | null>(null)
 
+interface Tab {
+  alias: string
+  label: string
+  component: Component
+}
+
 let frames: ImageBitmap[] = []
 let frameCount = 0
 let ctx: CanvasRenderingContext2D | null = null
@@ -22,8 +28,12 @@ let isReady = false
 
 const authSectionRef = ref<HTMLElement | null>(null)
 const genreRefs = ref<HTMLElement[]>([])
-const activeTab = ref<'login' | 'register'>('login')
 
+const tabs = ref<Tab[]>([
+  { alias: 'login', label: 'Accedi', component: LoginForm },
+  { alias: 'register', label: 'Registrati', component: RegistrationForm },
+])
+const activeTab = tabs.value[0] // Default first element of tabs
 const genres = ['Romanzo', 'Fantasy', 'Giallo', 'Fantascienza', 'Horror', 'Storico']
 
 const scrollToAuth = () => {
@@ -279,25 +289,20 @@ onUnmounted(() => {
         <img :src="bgImage" alt="" class="auth-section__bg-img" />
       </div>
 
-      <div class="auth-section__container">
+      <div v-if="activeTab" class="auth-section__container">
         <div class="auth-tabs">
           <button
-            :class="['auth-tabs__btn', { 'auth-tabs__btn--active': activeTab === 'login' }]"
-            @click="activeTab = 'login'"
+            v-for="t in tabs"
+            :key="t.alias"
+            :class="['auth-tabs__btn', { 'auth-tabs__btn--active': activeTab.alias === t.alias }]"
+            @click="activeTab = t"
           >
-            Accedi
-          </button>
-          <button
-            :class="['auth-tabs__btn', { 'auth-tabs__btn--active': activeTab === 'register' }]"
-            @click="activeTab = 'register'"
-          >
-            Registrati
+            {{ t.label }}
           </button>
         </div>
 
         <div class="auth-section__card">
-          <LoginForm v-if="activeTab === 'login'" />
-          <RegistrationForm v-else />
+          <component :is="activeTab.component" />
         </div>
       </div>
     </section>

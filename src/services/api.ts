@@ -29,7 +29,7 @@ api.interceptors.request.use(
 )
 
 api.interceptors.response.use(
-  (response: AxiosResponse) => response,
+  (response: AxiosResponse) => response.data, // Da verificare quando il Server risponde con dati 200 / 201
 
   (error: AxiosError) => {
     if (error.response?.status === 401) {
@@ -40,8 +40,8 @@ api.interceptors.response.use(
     } else if (error.response?.status === 422) {
       console.error('Validation error:', error.response.data)
     }
-
-    return Promise.reject(error)
+    console.log('API error:', error)
+    return Promise.reject(error.response.data)
   },
 )
 
