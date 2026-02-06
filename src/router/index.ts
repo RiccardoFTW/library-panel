@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { markRaw } from 'vue'
 import { isAuthenticated } from '@/services/AuthService'
 import { authGuard } from '@/middlewares/auth'
 
@@ -21,7 +22,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'hero',
-      component: HeroView,
+      component: markRaw(HeroView),
       meta: { guest: true },
     },
     // Public routes (login/register)

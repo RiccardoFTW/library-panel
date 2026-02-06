@@ -1,0 +1,27 @@
+{
+  "login": {
+    "title": "Bentornato",
+    "subtitle": "Accedi al tuo account",
+    "email": "Email",
+    "email_placeholder": "nome@esempio.com",
+    "password": "Password",
+    "password_placeholder": "••••••••",
+    "submit": "Accedi",
+    "submitting": "Accesso in corso..."
+  },
+  "register": {
+    "title": "Crea Account",
+    "subtitle": "Unisciti alla nostra biblioteca",
+    "username": "Nome Utente",
+    "username_placeholder": "Il tuo nome utente",
+    "email": "Email",
+    "email_placeholder": "nome@esempio.com",
+    "password": "Password",
+    "password_placeholder": "••••••••",
+    "confirm_password": "Conferma Password",
+    "confirm_password_placeholder": "••••••••",
+    "submit": "Registrati",
+    "submitting": "Registrazione..."
+  }
+}
+

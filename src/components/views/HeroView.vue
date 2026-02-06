@@ -33,7 +33,7 @@ const tabs = ref<Tab[]>([
   { alias: 'login', label: 'Accedi', component: LoginForm },
   { alias: 'register', label: 'Registrati', component: RegistrationForm },
 ])
-const activeTab = tabs.value[0] // Default first element of tabs
+const activeTab = ref<Tab>(tabs.value[0])
 const genres = ['Romanzo', 'Fantasy', 'Giallo', 'Fantascienza', 'Horror', 'Storico']
 
 const scrollToAuth = () => {
@@ -289,7 +289,7 @@ onUnmounted(() => {
         <img :src="bgImage" alt="" class="auth-section__bg-img" />
       </div>
 
-      <div v-if="activeTab" class="auth-section__container">
+      <div class="auth-section__container">
         <div class="auth-tabs">
           <button
             v-for="t in tabs"
@@ -309,7 +309,7 @@ onUnmounted(() => {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 /* Page */
 .hero-page {
   min-height: 300vh;
@@ -323,107 +323,107 @@ onUnmounted(() => {
   height: 100vh;
   overflow: hidden;
   background: var(--color-bg);
-}
 
-.hero__canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
+  &__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
 
-.hero__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(13, 12, 11, 0.2) 0%, rgba(13, 12, 11, 0.8) 100%);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 2;
-}
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(13, 12, 11, 0.2) 0%, rgba(13, 12, 11, 0.8) 100%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
 
-.hero__brand {
-  position: absolute;
-  top: 2rem;
-  left: 2rem;
-  z-index: 100;
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 7vw, 5rem);
-  font-weight: 500;
-  color: var(--color-text);
-  letter-spacing: 0.1em;
-}
+  &__brand {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    z-index: 100;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 7vw, 5rem);
+    font-weight: 500;
+    color: var(--color-text);
+    letter-spacing: 0.1em;
+  }
 
-.hero__content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  width: 90%;
-  max-width: 800px;
-  text-align: center;
-}
+  &__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    width: 90%;
+    max-width: 800px;
+    text-align: center;
+  }
 
-.hero__title {
-  font-family: var(--font-display);
-  font-size: clamp(2.5rem, 8vw, 5rem);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: var(--color-text);
-  margin-bottom: 1rem;
-}
+  &__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+  }
 
-.hero__title-accent {
-  display: block;
-  font-style: italic;
-  color: var(--color-accent);
-}
+  &__title-accent {
+    display: block;
+    font-style: italic;
+    color: var(--color-accent);
+  }
 
-.hero__genre {
-  position: absolute;
-  z-index: 50;
-  font-family: var(--font-display);
-  font-size: clamp(1.2rem, 3vw, 2rem);
-  letter-spacing: 0.15em;
-  color: var(--color-text);
-  opacity: 0;
-  pointer-events: none;
-}
+  &__genre {
+    position: absolute;
+    z-index: 50;
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    letter-spacing: 0.15em;
+    color: var(--color-text);
+    opacity: 0;
+    pointer-events: none;
+  }
 
-.hero__cta {
-  padding: 1rem 3rem;
-  font-size: 1.125rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  color: var(--color-accent);
-  background: var(--color-text);
-  border: none;
-  border-radius: 9999px;
-  cursor: pointer;
-  transition: all 0.3s var(--ease-smooth);
-}
+  &__cta {
+    padding: 1rem 3rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--color-accent);
+    background: var(--color-text);
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-smooth);
 
-.hero__cta:hover {
-  background: var(--color-text);
-  transform: scale(1.05);
-}
+    &:hover {
+      background: var(--color-text);
+      transform: scale(1.05);
+    }
+  }
 
-.hero__scroll-indicator {
-  position: absolute;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 10;
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--color-text);
+  &__scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 10;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-text);
+  }
 }
 
 /* Auth Section */
@@ -436,26 +436,34 @@ onUnmounted(() => {
   padding: 4rem 2rem;
   overflow: hidden;
   background: var(--color-bg-warm);
-}
 
-.auth-section__bg {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-}
+  &__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
 
-.auth-section__bg-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.4;
-}
+  &__bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.4;
+  }
 
-.auth-section__container {
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  max-width: 440px;
+  &__container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 440px;
+  }
+
+  &__card {
+    background: rgba(26, 23, 20, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(245, 240, 232, 0.1);
+    border-radius: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  }
 }
 
 .auth-tabs {
@@ -463,52 +471,46 @@ onUnmounted(() => {
   justify-content: center;
   gap: 0.5rem;
   margin-bottom: 1.5rem;
-}
 
-.auth-tabs__btn {
-  padding: 0.75rem 2rem;
-  font-family: var(--font-body);
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--color-text);
-  background: transparent;
-  border: none;
-  border-radius: 9999px;
-  cursor: pointer;
-  transition: all 0.3s var(--ease-smooth);
-}
+  &__btn {
+    padding: 0.75rem 2rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text);
+    background: transparent;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-smooth);
 
-.auth-tabs__btn:hover {
-  color: var(--color-text);
-}
+    &:hover {
+      color: var(--color-text);
+    }
 
-.auth-tabs__btn--active {
-  color: #000;
-  background: var(--color-text);
-}
+    &--active {
+      color: #000;
+      background: var(--color-text);
 
-.auth-tabs__btn--active:hover {
-  background: var(--color-accent);
-}
-
-.auth-section__card {
-  background: rgba(26, 23, 20, 0.85);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(245, 240, 232, 0.1);
-  border-radius: 1.5rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      &:hover {
+        background: var(--color-accent);
+      }
+    }
+  }
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .hero__brand {
-    top: 1rem;
-    left: 1rem;
-  }
+  .hero {
+    &__brand {
+      top: 1rem;
+      left: 1rem;
+    }
 
-  .hero__scroll-indicator {
-    bottom: 1.5rem;
-    right: 1.5rem;
+    &__scroll-indicator {
+      bottom: 1.5rem;
+      right: 1.5rem;
+    }
   }
 }
 </style>

@@ -19,7 +19,7 @@ import bgImage from '@/assets/images/shadows-remix.webp'
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .auth-layout {
   min-height: 100vh;
   background: var(--color-bg);
@@ -29,36 +29,36 @@ import bgImage from '@/assets/images/shadows-remix.webp'
   padding: 2rem;
   position: relative;
   overflow: hidden;
-}
 
-.auth-layout__bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-}
+  &__bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+  }
 
-.auth-layout__bg-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.6;
-}
+  &__bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+  }
 
-.auth-layout__container {
-  width: 100%;
-  max-width: 440px;
-  position: relative;
-  z-index: 10;
-}
+  &__container {
+    width: 100%;
+    max-width: 440px;
+    position: relative;
+    z-index: 10;
+  }
 
-.auth-layout__card {
-  background: rgba(26, 23, 20, 0.85);
-  backdrop-filter: blur(12px);
-  border-radius: 1.5rem;
-  border: 1px solid rgba(245, 240, 232, 0.1);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  &__card {
+    background: rgba(26, 23, 20, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 1.5rem;
+    border: 1px solid rgba(245, 240, 232, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  }
 }
 </style>

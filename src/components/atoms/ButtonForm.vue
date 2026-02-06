@@ -26,7 +26,7 @@ defineProps({
   </button>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .btn-form {
   width: 100%;
   padding: 1rem 1.5rem;
@@ -42,46 +42,46 @@ defineProps({
   justify-content: center;
   gap: 0.5rem;
   letter-spacing: 0.02em;
-}
 
-.btn-form:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
 
-.btn-form--primary {
-  background: var(--color-accent);
-  color: var(--color-bg);
-  border-color: var(--color-accent);
-}
+  &--primary {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    border-color: var(--color-accent);
 
-.btn-form--primary:hover:not(:disabled) {
-  background: var(--color-accent-light);
-  border-color: var(--color-accent-light);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(201, 169, 98, 0.3);
-}
+    &:hover:not(:disabled) {
+      background: var(--color-accent-light);
+      border-color: var(--color-accent-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(201, 169, 98, 0.3);
+    }
+  }
 
-.btn-form--secondary {
-  background: transparent;
-  color: var(--color-text);
-  border-color: var(--color-text-muted);
-}
+  &--secondary {
+    background: transparent;
+    color: var(--color-text);
+    border-color: var(--color-text-muted);
 
-.btn-form--secondary:hover:not(:disabled) {
-  background: var(--color-text);
-  color: var(--color-bg);
-  border-color: var(--color-text);
-  transform: translateY(-2px);
-}
+    &:hover:not(:disabled) {
+      background: var(--color-text);
+      color: var(--color-bg);
+      border-color: var(--color-text);
+      transform: translateY(-2px);
+    }
+  }
 
-.btn-form__spinner {
-  width: 1rem;
-  height: 1rem;
-  border: 2px solid currentColor;
-  border-top-color: transparent;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  &__spinner {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
 }
 
 @keyframes spin {

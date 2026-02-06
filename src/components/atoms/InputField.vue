@@ -42,53 +42,53 @@ defineEmits(['update:modelValue'])
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .input-field {
   margin-bottom: 1.25rem;
-}
 
-.input-field__label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--color-text-muted);
-}
+  &__label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
 
-.input-field__input {
-  width: 100%;
-  padding: 0.875rem 1rem;
-  font-family: var(--font-body);
-  font-size: 1rem;
-  color: var(--color-text);
-  background: var(--color-bg);
-  border: 1px solid rgba(245, 240, 232, 0.15);
-  border-radius: 0.75rem;
-  outline: none;
-  transition: all 0.3s var(--ease-smooth);
-}
+  &__input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid rgba(245, 240, 232, 0.15);
+    border-radius: 0.75rem;
+    outline: none;
+    transition: all 0.3s var(--ease-smooth);
 
-.input-field__input::placeholder {
-  color: var(--color-text-muted);
-  opacity: 0.6;
-}
+    &::placeholder {
+      color: var(--color-text-muted);
+      opacity: 0.6;
+    }
 
-.input-field__input:focus {
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.15);
-}
+    &:focus {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.15);
+    }
 
-.input-field__input:hover:not(:focus) {
-  border-color: rgba(245, 240, 232, 0.3);
-}
+    &:hover:not(:focus) {
+      border-color: rgba(245, 240, 232, 0.3);
+    }
 
-.input-field__input--error {
-  border-color: #f87171;
-}
+    &--error {
+      border-color: #f87171;
 
-.input-field__input--error:focus {
-  border-color: #f87171;
-  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.15);
+      &:focus {
+        border-color: #f87171;
+        box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.15);
+      }
+    }
+  }
 }
 </style>

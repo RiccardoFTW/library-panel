@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { signup } from '@/services/AuthService'
 import InputField from '@/components/atoms/InputField.vue'
 import Button from '@/components/atoms/ButtonForm.vue'
+
+const { t } = useI18n()
 
 const formData = reactive({
   username: '',
@@ -67,7 +70,7 @@ const validate = (): boolean => {
 // Submit
 const handleSubmit = () => {
   errorMessage.value = ''
-  
+
   if (!validate()) {
     return
   }
@@ -91,8 +94,8 @@ const handleSubmit = () => {
 <template>
   <form @submit.prevent="handleSubmit" class="register-form">
     <div class="register-form__header">
-      <h2 class="register-form__title">Crea Account</h2>
-      <p class="register-form__subtitle">Unisciti alla nostra biblioteca</p>
+      <h2 class="register-form__title">{{ t('register.title') }}</h2>
+      <p class="register-form__subtitle">{{ t('register.subtitle') }}</p>
     </div>
 
     <div v-if="errorMessage" class="register-form__error">
@@ -103,81 +106,85 @@ const handleSubmit = () => {
     </div>
 
     <div class="register-form__fields">
-    <InputField
-      v-model="formData.username"
-      type="text"
-      label="Nome Utente"
-        placeholder="Il tuo nome utente"
+      <InputField
+        v-model="formData.username"
+        type="text"
+        :label="t('register.username')"
+        :placeholder="t('register.username_placeholder')"
         :error="errors.username"
-    />
+      />
 
-    <InputField
-      v-model="formData.email"
-      type="email"
-      label="Email"
-        placeholder="nome@esempio.com"
+      <InputField
+        v-model="formData.email"
+        type="email"
+        :label="t('register.email')"
+        :placeholder="t('register.email_placeholder')"
         :error="errors.email"
-    />
+      />
 
-    <InputField
-      v-model="formData.password"
-      type="password"
-      label="Password"
-        placeholder="••••••••"
+      <InputField
+        v-model="formData.password"
+        type="password"
+        :label="t('register.password')"
+        :placeholder="t('register.password_placeholder')"
         :error="errors.password"
-    />
+      />
 
-    <InputField
-      v-model="formData.confirmPassword"
-      type="password"
-      label="Conferma Password"
-        placeholder="••••••••"
+      <InputField
+        v-model="formData.confirmPassword"
+        type="password"
+        :label="t('register.confirm_password')"
+        :placeholder="t('register.confirm_password_placeholder')"
         :error="errors.confirmPassword"
-    />
+      />
     </div>
 
-    <Button type="submit" :text="loading ? 'Registrazione...' : 'Registrati'" :loading="loading" />
+    <Button
+      type="submit"
+      :text="loading ? t('register.submitting') : t('register.submit')"
+      :loading="loading"
+    />
   </form>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .register-form {
   padding: 2rem;
-}
 
-.register-form__header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
+  &__header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
 
-.register-form__title {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  color: var(--color-text);
-  margin-bottom: 0.5rem;
-}
+  &__title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
 
-.register-form__subtitle {
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-}
+  &__subtitle {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
 
-.register-form__error {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.875rem 1rem;
-  margin-bottom: 1.5rem;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 0.75rem;
-  color: #f87171;
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-}
+  &__error {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1rem;
+    margin-bottom: 1.5rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 0.75rem;
+    color: #f87171;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+  }
 
-.register-form__fields {
-  margin-bottom: 1.5rem;
+  &__fields {
+    margin-bottom: 1.5rem;
+  }
 }
 </style>

@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { login } from '@/services/AuthService'
 import Button from '@/components/atoms/ButtonForm.vue'
 import InputField from '@/components/atoms/InputField.vue'
+
+const { t } = useI18n()
 
 const formData = reactive({
   email: '',
@@ -72,26 +75,26 @@ const handleSubmit = () => {
 <template>
   <form @submit.prevent="handleSubmit" class="login-form">
     <div class="login-form__header">
-      <h2 class="login-form__title">Bentornato</h2>
-      <p class="login-form__subtitle">Accedi al tuo account</p>
+      <h2 class="login-form__title">{{ t('login.title') }}</h2>
+      <p class="login-form__subtitle">{{ t('login.subtitle') }}</p>
     </div>
 
     <div class="login-form__fields">
-    <InputField
-      v-model="formData.email"
-      type="email"
-      label="Email"
-      placeholder="nome@esempio.com"
-      :error="errors.email"
-    />
+      <InputField
+        v-model="formData.email"
+        type="email"
+        :label="t('login.email')"
+        :placeholder="t('login.email_placeholder')"
+        :error="errors.email"
+      />
 
-    <InputField
-      v-model="formData.password"
-      type="password"
-      label="Password"
-      placeholder="••••••••"
-      :error="errors.password"
-    />
+      <InputField
+        v-model="formData.password"
+        type="password"
+        :label="t('login.password')"
+        :placeholder="t('login.password_placeholder')"
+        :error="errors.password"
+      />
     </div>
 
     <!-- Da rendere Componente riutilizzabile con prop per la class... (warning, success, error) -->
@@ -111,48 +114,52 @@ const handleSubmit = () => {
       {{ errorMessage }}
     </div>
 
-    <Button type="submit" :text="loading ? 'Accesso in corso...' : 'Accedi'" :loading="loading" />
+    <Button
+      type="submit"
+      :text="loading ? t('login.submitting') : t('login.submit')"
+      :loading="loading"
+    />
   </form>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .login-form {
   padding: 2rem;
-}
 
-.login-form__header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
+  &__header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
 
-.login-form__title {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  color: var(--color-text);
-  margin-bottom: 0.5rem;
-}
+  &__title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
 
-.login-form__subtitle {
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-}
+  &__subtitle {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
 
-.login-form__error {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.875rem 1rem;
-  margin-bottom: 1.5rem;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 0.75rem;
-  color: #f87171;
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-}
+  &__error {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1rem;
+    margin-bottom: 1.5rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 0.75rem;
+    color: #f87171;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+  }
 
-.login-form__fields {
-  margin-bottom: 1.5rem;
+  &__fields {
+    margin-bottom: 1.5rem;
+  }
 }
 </style>
