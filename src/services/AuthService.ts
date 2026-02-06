@@ -10,7 +10,7 @@ export const login = async (loginData: LoginData): Promise<AuthResponse | void> 
 
       localStorage.setItem(TOKEN_KEY, res.data.access_token)
     })
-    .catch((err: unknown) => {
+    .catch((err: Error) => {
       throw err
     })
 }

@@ -4,6 +4,8 @@ import { useI18n } from 'vue-i18n'
 import { login } from '@/services/AuthService'
 import Button from '@/components/atoms/ButtonForm.vue'
 import InputField from '@/components/atoms/InputField.vue'
+import type { AuthResponse } from '@/types/auth'
+import type { ApiError } from '@/types/api_errors'
 
 const { t } = useI18n()
 
@@ -44,9 +46,15 @@ const validate = (): boolean => {
   return isValid
 }
 
+const emit = defineEmits<{
+  'login-success': unknown | null
+  'login-error': unknown
+}>()
+
 // Submit
 const handleSubmit = () => {
   errorMessage.value = ''
+  errors.value = { email: '', password: '' }
 
   /* TODO: Test validazioni lato server e poi quando OK riabilitare questa parte
   if (!validate()) {
@@ -56,15 +64,17 @@ const handleSubmit = () => {
   loading.value = true
 
   login(formData)
-    .then((response) => {
-      console.log('Login riuscito', response.data)
+    .then((response: void | AuthResponse) => {
+      console.log('Login riuscito', response?.data)
+      emit('login-success', response?.data)
     })
-    .catch((error) => {
-      console.log('aaaa')
-      errorMessage.value = error.error // Messaggio di errore dal server
-      // Todo: Gestire errori specifici sui singoli campi che arrivano lato server "errors"
+    .catch((error: ApiError) => {
+      console.error('Login fallito:', error)
+      if (error) {
+        errorMessage.value = error.error
+        errors.value = error.errors
+        emit('login-error', error)
 
-      errors.value = error.errors // <-- Da controllare: assegnazione oggetto reattivo
     })
     .finally(() => {
       loading.value = false

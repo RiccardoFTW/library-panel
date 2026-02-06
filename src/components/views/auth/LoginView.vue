@@ -1,17 +1,25 @@
 <script setup lang="ts">
 import LoginForm from '@/components/molecules/LoginForm.vue'
+
+const handleLoginSuccess = (data: unknown) => {
+  // Gestisci il successo del login, ad esempio salvando il token o reindirizzando
+  console.log('Login riuscito:', data)
+}
+
+const handleLoginError = (error: unknown) => {
+  // Gestisci l'errore del login, ad esempio mostrando un messaggio all'utente
+  console.error('Errore durante il login:', error)
+}
 </script>
 
 <template>
   <div class="login-view">
-    <LoginForm />
+    <LoginForm @login-success="handleLoginSuccess" @login-error="handleLoginError" />
     <div class="login-view__footer">
       <p class="login-view__text">
-      Non hai un account?
-        <router-link to="/register" class="login-view__link">
-          Registrati
-      </router-link>
-    </p>
+        Non hai un account?
+        <router-link to="/register" class="login-view__link"> Registrati </router-link>
+      </p>
     </div>
   </div>
 </template>

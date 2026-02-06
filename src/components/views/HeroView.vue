@@ -33,7 +33,7 @@ const tabs = ref<Tab[]>([
   { alias: 'login', label: 'Accedi', component: LoginForm },
   { alias: 'register', label: 'Registrati', component: RegistrationForm },
 ])
-const activeTab = ref<Tab>(tabs.value[0])
+const activeTab = ref<Tab>(tabs.value[0] as Tab)
 const genres = ['Romanzo', 'Fantasy', 'Giallo', 'Fantascienza', 'Horror', 'Storico']
 
 const scrollToAuth = () => {
