@@ -7,11 +7,11 @@ import RegistrationForm from '@/components/molecules/RegistrationForm.vue'
     <RegistrationForm />
     <div class="register-view__footer">
       <p class="register-view__text">
-        Hai già un account?
+      Hai già un account?
         <router-link to="/login" class="register-view__link">
           Accedi
-        </router-link>
-      </p>
+      </router-link>
+    </p>
     </div>
   </div>
 </template>

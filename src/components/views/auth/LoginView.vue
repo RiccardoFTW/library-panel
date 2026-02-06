@@ -7,11 +7,11 @@ import LoginForm from '@/components/molecules/LoginForm.vue'
     <LoginForm />
     <div class="login-view__footer">
       <p class="login-view__text">
-        Non hai un account?
+      Non hai un account?
         <router-link to="/register" class="login-view__link">
           Registrati
-        </router-link>
-      </p>
+      </router-link>
+    </p>
     </div>
   </div>
 </template>

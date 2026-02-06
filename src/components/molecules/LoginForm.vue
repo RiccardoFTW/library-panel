@@ -81,21 +81,21 @@ const handleSubmit = () => {
     </div>
 
     <div class="login-form__fields">
-      <InputField
-        v-model="formData.email"
-        type="email"
-        label="Email"
+    <InputField
+      v-model="formData.email"
+      type="email"
+      label="Email"
         placeholder="nome@esempio.com"
         :error="errors.email"
-      />
+    />
 
-      <InputField
-        v-model="formData.password"
-        type="password"
-        label="Password"
+    <InputField
+      v-model="formData.password"
+      type="password"
+      label="Password"
         placeholder="••••••••"
         :error="errors.password"
-      />
+    />
     </div>
 
     <Button type="submit" :text="loading ? 'Accesso in corso...' : 'Accedi'" :loading="loading" />

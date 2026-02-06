@@ -103,37 +103,37 @@ const handleSubmit = () => {
     </div>
 
     <div class="register-form__fields">
-      <InputField
-        v-model="formData.username"
-        type="text"
-        label="Nome Utente"
+    <InputField
+      v-model="formData.username"
+      type="text"
+      label="Nome Utente"
         placeholder="Il tuo nome utente"
         :error="errors.username"
-      />
+    />
 
-      <InputField
-        v-model="formData.email"
-        type="email"
-        label="Email"
+    <InputField
+      v-model="formData.email"
+      type="email"
+      label="Email"
         placeholder="nome@esempio.com"
         :error="errors.email"
-      />
+    />
 
-      <InputField
-        v-model="formData.password"
-        type="password"
-        label="Password"
+    <InputField
+      v-model="formData.password"
+      type="password"
+      label="Password"
         placeholder="••••••••"
         :error="errors.password"
-      />
+    />
 
-      <InputField
-        v-model="formData.confirmPassword"
-        type="password"
-        label="Conferma Password"
+    <InputField
+      v-model="formData.confirmPassword"
+      type="password"
+      label="Conferma Password"
         placeholder="••••••••"
         :error="errors.confirmPassword"
-      />
+    />
     </div>
 
     <Button type="submit" :text="loading ? 'Registrazione...' : 'Registrati'" :loading="loading" />
