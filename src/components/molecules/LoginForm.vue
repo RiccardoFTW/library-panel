@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { login } from '@/services/AuthService'
-import type { ApiError } from '@/services/api'
+import type { AuthResponse } from '@/types/auth'
+import type { ApiError } from '@/types/api_errors'
 
 const { t } = useI18n()
 
@@ -41,9 +42,15 @@ const validate = (): boolean => {
   return isValid
 }
 
+const emit = defineEmits<{
+  'login-success': unknown | null
+  'login-error': unknown
+}>()
+
 // Submit
 const handleSubmit = () => {
   errorMessage.value = ''
+  errors.value = { email: '', password: '' }
 
   /* TODO: Test validazioni lato server e poi quando OK riabilitare questa parte
   if (!validate()) {
@@ -53,15 +60,18 @@ const handleSubmit = () => {
   loading.value = true
 
   login(formData)
-    .then((response) => {
-      console.log(t('login.success'), response.data)
+    .then((response: void | AuthResponse) => {
+      console.log(t('login.success'), response?.data)
+      emit('login-success', response?.data)
     })
     .catch((error: ApiError) => {
-      errorMessage.value = error.error // Messaggio di errore dal server
-      // Todo: Gestire errori specifici sui singoli campi che arrivano lato server "errors"
-
-      if (error.errors) {
-        errors.value = { email: '', password: '', ...error.errors }
+      console.error('Login fallito:', error)
+      if (error) {
+        errorMessage.value = error.error
+        if (error.errors) {
+          errors.value = { email: '', password: '', ...error.errors }
+        }
+        emit('login-error', error)
       }
     })
     .finally(() => {

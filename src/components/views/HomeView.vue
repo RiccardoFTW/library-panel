@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { getBooks, type PaginatedResponse } from '@/services/BookService'
 import type { Book } from '@/types/books'
 import ButtonGroup from '@/components/atoms/ButtonGroup.vue'
@@ -32,13 +32,13 @@ watch(search, () => {
   currentPage.value = 1
   loadBooks()
 })
-watch(currentPage, () => {
-  loadBooks()
-})
-
-onMounted(() => {
-  loadBooks()
-})
+watch(
+  currentPage,
+  () => {
+    loadBooks()
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
