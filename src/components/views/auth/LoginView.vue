@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// LoginForm è auto-importato
 const { t } = useI18n()
 </script>
 
