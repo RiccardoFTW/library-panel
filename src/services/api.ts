@@ -28,10 +28,17 @@ api.interceptors.request.use(
   },
 )
 
+// Tipo per l'errore dell'API
+export interface ApiError {
+  error: string
+  errors?: Record<string, string>
+  message?: string
+}
+
 api.interceptors.response.use(
   (response: AxiosResponse) => response.data, // Da verificare quando il Server risponde con dati 200 / 201
 
-  (error: AxiosError) => {
+  (error: AxiosError<ApiError>) => {
     if (error.response?.status === 401) {
       localStorage.removeItem(TOKEN_KEY)
       if (typeof window !== 'undefined' && window.location?.pathname !== '/login') {
@@ -41,7 +48,7 @@ api.interceptors.response.use(
       console.error('Validation error:', error.response.data)
     }
     console.log('API error:', error)
-    return Promise.reject(error.response.data)
+    return Promise.reject(error.response?.data ?? { error: 'Network error' })
   },
 )
 

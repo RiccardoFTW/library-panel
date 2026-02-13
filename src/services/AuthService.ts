@@ -1,18 +1,17 @@
 import api, { TOKEN_KEY } from './api'
 import type { AuthResponse, LoginData, LogoutResponse, SignupData } from '../types/auth'
 
-export const login = async (loginData: LoginData): Promise<AuthResponse | void> => {
+export const login = async (loginData: LoginData): Promise<AuthResponse> => {
   // Chiamata POST al Server
-  return await api
-    .post('/login', loginData)
-    .then((res) => {
-      console.log('Login response:', res)
+  const res = await api.post('/login', loginData)
+  console.log('Login response:', res)
 
-      localStorage.setItem(TOKEN_KEY, res.data.access_token)
-    })
-    .catch((err: unknown) => {
-      throw err
-    })
+  localStorage.setItem(TOKEN_KEY, res.data.access_token)
+
+  return {
+    data: res.data,
+    msg: 'Login effettuato con successo',
+  }
 }
 
 export const isAuthenticated = (): boolean => {

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
 import { logout } from '@/services/AuthService'
 
 const router = useRouter()
+const { t } = useI18n()
 
 const goToHome = () => {
   router.push({ name: 'home' })
@@ -16,11 +16,13 @@ const signout = async () => {
 
 <template>
   <nav class="auth-navbar">
-    <button @click="goToHome" class="auth-navbar__brand">Library</button>
+    <button @click="goToHome" class="auth-navbar__brand">{{ t('common.library') }}</button>
 
     <div class="auth-navbar__links">
-      <RouterLink to="/dashboard" class="auth-navbar__link">Home</RouterLink>
-      <button type="button" class="auth-navbar__logout" @click="signout">Logout</button>
+      <RouterLink to="/dashboard" class="auth-navbar__link">{{ t('common.home') }}</RouterLink>
+      <button type="button" class="auth-navbar__logout" @click="signout">
+        {{ t('common.logout') }}
+      </button>
     </div>
   </nav>
 </template>

@@ -1,21 +1,16 @@
 <script setup lang="ts">
-defineProps({
-  type: {
-    type: String,
-    default: 'button',
-  },
-  text: {
-    type: String,
-    default: 'Click',
-  },
-  variant: {
-    type: String,
-    default: 'primary',
-  },
-  loading: {
-    type: Boolean,
-    default: false,
-  },
+interface Props {
+  type?: 'button' | 'submit' | 'reset'
+  text?: string
+  variant?: 'primary' | 'secondary'
+  loading?: boolean
+}
+
+withDefaults(defineProps<Props>(), {
+  type: 'button',
+  text: 'Click',
+  variant: 'primary',
+  loading: false,
 })
 </script>
 

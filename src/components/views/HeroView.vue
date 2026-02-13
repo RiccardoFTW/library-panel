@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, type Component } from 'vue'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import bookWebp from '@/assets/images/book.webp'
@@ -8,6 +7,8 @@ import LoginForm from '@/components/molecules/LoginForm.vue'
 import RegistrationForm from '@/components/molecules/RegistrationForm.vue'
 
 gsap.registerPlugin(ScrollTrigger)
+
+const { t } = useI18n()
 
 const heroRef = ref<HTMLElement | null>(null)
 const canvasRef = ref<HTMLCanvasElement | null>(null)
@@ -30,11 +31,18 @@ const authSectionRef = ref<HTMLElement | null>(null)
 const genreRefs = ref<HTMLElement[]>([])
 
 const tabs = ref<Tab[]>([
-  { alias: 'login', label: 'Accedi', component: LoginForm },
-  { alias: 'register', label: 'Registrati', component: RegistrationForm },
+  { alias: 'login', label: t('common.login'), component: LoginForm },
+  { alias: 'register', label: t('common.register'), component: RegistrationForm },
 ])
-const activeTab = ref<Tab>(tabs.value[0])
-const genres = ['Romanzo', 'Fantasy', 'Giallo', 'Fantascienza', 'Horror', 'Storico']
+const activeTab = ref<Tab>(tabs.value[0]!)
+const genres = [
+  t('hero.genres.novel'),
+  t('hero.genres.fantasy'),
+  t('hero.genres.mystery'),
+  t('hero.genres.scifi'),
+  t('hero.genres.horror'),
+  t('hero.genres.historical'),
+]
 
 const scrollToAuth = () => {
   authSectionRef.value?.scrollIntoView({ behavior: 'smooth' })
@@ -251,7 +259,7 @@ onUnmounted(() => {
     <section ref="heroRef" class="hero">
       <canvas ref="canvasRef" class="hero__canvas"></canvas>
 
-      <h2 class="hero__brand">Library</h2>
+      <h2 class="hero__brand">{{ t('common.library') }}</h2>
 
       <div ref="overlayRef" class="hero__overlay"></div>
 
@@ -271,15 +279,17 @@ onUnmounted(() => {
 
       <div class="hero__content">
         <h1 ref="titleRef" class="hero__title">
-          Discover Your Next
-          <span class="hero__title-accent">Story</span>
+          {{ t('hero.title_main') }}
+          <span class="hero__title-accent">{{ t('hero.title_accent') }}</span>
         </h1>
 
-        <button ref="ctaRef" class="hero__cta" @click="scrollToAuth">Inizia Ora</button>
+        <button ref="ctaRef" class="hero__cta" @click="scrollToAuth">
+          {{ t('hero.cta') }}
+        </button>
       </div>
 
       <div class="hero__scroll-indicator">
-        <span>Scroll</span>
+        <span>{{ t('common.scroll') }}</span>
       </div>
     </section>
 

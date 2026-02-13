@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { signup } from '@/services/AuthService'
-import InputField from '@/components/atoms/InputField.vue'
-import Button from '@/components/atoms/ButtonForm.vue'
+import type { ApiError } from '@/services/api'
 
 const { t } = useI18n()
 
@@ -33,34 +30,34 @@ const validate = (): boolean => {
   errors.confirmPassword = ''
 
   if (!formData.username) {
-    errors.username = 'Nome utente obbligatorio'
+    errors.username = t('validation.username_required')
     isValid = false
   } else if (formData.username.length < 3) {
-    errors.username = 'Nome utente troppo corto (min 3 caratteri)'
+    errors.username = t('validation.username_too_short')
     isValid = false
   }
 
   if (!formData.email) {
-    errors.email = 'Email obbligatoria'
+    errors.email = t('validation.email_required')
     isValid = false
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-    errors.email = 'Email non valida'
+    errors.email = t('validation.email_invalid')
     isValid = false
   }
 
   if (!formData.password) {
-    errors.password = 'Password obbligatoria'
+    errors.password = t('validation.password_required')
     isValid = false
   } else if (formData.password.length < 6) {
-    errors.password = 'Password troppo corta (min 6 caratteri)'
+    errors.password = t('validation.password_too_short')
     isValid = false
   }
 
   if (!formData.confirmPassword) {
-    errors.confirmPassword = 'Conferma password obbligatoria'
+    errors.confirmPassword = t('validation.confirm_password_required')
     isValid = false
   } else if (formData.password !== formData.confirmPassword) {
-    errors.confirmPassword = 'Le password non corrispondono'
+    errors.confirmPassword = t('validation.passwords_not_match')
     isValid = false
   }
 
@@ -79,11 +76,11 @@ const handleSubmit = () => {
 
   signup(formData)
     .then((response) => {
-      console.log('Registrazione riuscita', response.data)
+      console.log(t('register.success'), response.data)
     })
-    .catch((error) => {
-      console.log('Errore durante la registrazione', error)
-      errorMessage.value = 'Non è stato possibile completare la registrazione'
+    .catch((error: ApiError) => {
+      console.log(t('register.error'), error)
+      errorMessage.value = error.error || t('register.error_generic')
     })
     .finally(() => {
       loading.value = false

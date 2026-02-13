@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-
 const router = useRouter()
+const { t } = useI18n()
 
 const goToHero = () => {
   router.push({ name: 'hero' })
@@ -11,7 +10,7 @@ const goToHero = () => {
 <template>
   <div class="public-navbar">
     <button @click="goToHero" class="public-navbar__brand">
-      Library
+      {{ t('common.library') }}
     </button>
   </div>
 </template>

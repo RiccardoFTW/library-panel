@@ -1,4 +1,25 @@
 {
+  "common": {
+    "login": "Accedi",
+    "register": "Registrati",
+    "logout": "Logout",
+    "home": "Home",
+    "library": "Library",
+    "scroll": "Scroll"
+  },
+  "hero": {
+    "title_main": "Discover Your Next",
+    "title_accent": "Story",
+    "cta": "Inizia Ora",
+    "genres": {
+      "novel": "Romanzo",
+      "fantasy": "Fantasy",
+      "mystery": "Giallo",
+      "scifi": "Fantascienza",
+      "horror": "Horror",
+      "historical": "Storico"
+    }
+  },
   "login": {
     "title": "Bentornato",
     "subtitle": "Accedi al tuo account",
@@ -7,7 +28,10 @@
     "password": "Password",
     "password_placeholder": "••••••••",
     "submit": "Accedi",
-    "submitting": "Accesso in corso..."
+    "submitting": "Accesso in corso...",
+    "no_account": "Non hai un account?",
+    "go_to_register": "Registrati",
+    "success": "Login riuscito"
   },
   "register": {
     "title": "Crea Account",
@@ -21,7 +45,22 @@
     "confirm_password": "Conferma Password",
     "confirm_password_placeholder": "••••••••",
     "submit": "Registrati",
-    "submitting": "Registrazione..."
+    "submitting": "Registrazione...",
+    "have_account": "Hai già un account?",
+    "go_to_login": "Accedi",
+    "success": "Registrazione riuscita",
+    "error": "Errore durante la registrazione",
+    "error_generic": "Non è stato possibile completare la registrazione"
+  },
+  "validation": {
+    "email_required": "Email obbligatoria",
+    "email_invalid": "Email non valida",
+    "password_required": "Password obbligatoria",
+    "password_too_short": "Password troppo corta (min 6 caratteri)",
+    "username_required": "Nome utente obbligatorio",
+    "username_too_short": "Nome utente troppo corto (min 3 caratteri)",
+    "confirm_password_required": "Conferma password obbligatoria",
+    "passwords_not_match": "Le password non corrispondono"
   }
 }
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import LoginForm from '@/components/molecules/LoginForm.vue'
+// LoginForm è auto-importato
+const { t } = useI18n()
 </script>
 
 <template>
@@ -7,11 +8,11 @@ import LoginForm from '@/components/molecules/LoginForm.vue'
     <LoginForm />
     <div class="login-view__footer">
       <p class="login-view__text">
-      Non hai un account?
+        {{ t('login.no_account') }}
         <router-link to="/register" class="login-view__link">
-          Registrati
-      </router-link>
-    </p>
+          {{ t('login.go_to_register') }}
+        </router-link>
+      </p>
     </div>
   </div>
 </template>

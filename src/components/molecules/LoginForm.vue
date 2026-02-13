@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { login } from '@/services/AuthService'
-import Button from '@/components/atoms/ButtonForm.vue'
-import InputField from '@/components/atoms/InputField.vue'
+import type { ApiError } from '@/services/api'
 
 const { t } = useI18n()
 
@@ -26,18 +23,18 @@ const validate = (): boolean => {
   errors.value = { email: '', password: '' }
 
   if (!formData.email) {
-    errors.value.email = 'Email obbligatoria'
+    errors.value.email = t('validation.email_required')
     isValid = false
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-    errors.value.email = 'Email non valida'
+    errors.value.email = t('validation.email_invalid')
     isValid = false
   }
 
   if (!formData.password) {
-    errors.value.password = 'Password obbligatoria'
+    errors.value.password = t('validation.password_required')
     isValid = false
   } else if (formData.password.length < 6) {
-    errors.value.password = 'Password troppo corta (min 6 caratteri)'
+    errors.value.password = t('validation.password_too_short')
     isValid = false
   }
 
@@ -57,14 +54,15 @@ const handleSubmit = () => {
 
   login(formData)
     .then((response) => {
-      console.log('Login riuscito', response.data)
+      console.log(t('login.success'), response.data)
     })
-    .catch((error) => {
-      console.log('aaaa')
+    .catch((error: ApiError) => {
       errorMessage.value = error.error // Messaggio di errore dal server
       // Todo: Gestire errori specifici sui singoli campi che arrivano lato server "errors"
 
-      errors.value = error.errors // <-- Da controllare: assegnazione oggetto reattivo
+      if (error.errors) {
+        errors.value = { email: '', password: '', ...error.errors }
+      }
     })
     .finally(() => {
       loading.value = false
