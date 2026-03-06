@@ -12,7 +12,7 @@ const formatDate = (dateString: string): string => {
 }
 
 const formatAuthors = (authors: Book['authors']): string => {
-  return authors.map((a) => `${a.firstName} ${a.lastName}`).join(', ')
+  return authors.map((a) => `${a.first_name} ${a.last_name}`).join(', ')
 }
 
 const getAccentColor = (id: number): string => {
@@ -43,7 +43,7 @@ const getAccentColor = (id: number): string => {
 
     <div class="text-gray-400 text-sm hidden sm:flex items-center gap-1">
       <span v-html="icons.calendar" class="w-4 h-4"></span>
-      {{ formatDate(book.publishedAt) }}
+      {{ book.published_at ? formatDate(book.published_at) : '-' }}
     </div>
 
     <div class="font-bold text-green-600 text-lg min-w-[70px] text-right">€ {{ book.price }}</div>

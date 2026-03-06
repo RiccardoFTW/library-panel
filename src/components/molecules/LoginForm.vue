@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { login } from '@/services/AuthService'
-import type { AuthResponse } from '@/types/auth'
-import type { ApiError } from '@/types/api_errors'
+import type { LoginResponse } from '@/types/auth'
+import type { ApiError } from '@/services/api'
 
 const { t } = useI18n()
+const router = useRouter()
 
 const formData = reactive({
   email: '',
@@ -18,60 +19,24 @@ const errors = ref({
 const errorMessage = ref('')
 const loading = ref(false)
 
-// Validazione
-const validate = (): boolean => {
-  let isValid = true
-  errors.value = { email: '', password: '' }
-
-  if (!formData.email) {
-    errors.value.email = t('validation.email_required')
-    isValid = false
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-    errors.value.email = t('validation.email_invalid')
-    isValid = false
-  }
-
-  if (!formData.password) {
-    errors.value.password = t('validation.password_required')
-    isValid = false
-  } else if (formData.password.length < 6) {
-    errors.value.password = t('validation.password_too_short')
-    isValid = false
-  }
-
-  return isValid
-}
-
-const emit = defineEmits<{
-  'login-success': unknown | null
-  'login-error': unknown
-}>()
-
-// Submit
 const handleSubmit = () => {
   errorMessage.value = ''
   errors.value = { email: '', password: '' }
 
-  /* TODO: Test validazioni lato server e poi quando OK riabilitare questa parte
-  if (!validate()) {
-    return
-  }*/
-
   loading.value = true
 
   login(formData)
-    .then((response: void | AuthResponse) => {
-      console.log(t('login.success'), response?.data)
-      emit('login-success', response?.data)
+    .then((response: LoginResponse) => {
+      console.log(t('login.success'), response.access_token)
+      router.push({ name: 'home' })
     })
     .catch((error: ApiError) => {
       console.error('Login fallito:', error)
       if (error) {
-        errorMessage.value = error.error
+        errorMessage.value = error.error || error.message || 'Errore sconosciuto'
         if (error.errors) {
           errors.value = { email: '', password: '', ...error.errors }
         }
-        emit('login-error', error)
       }
     })
     .finally(() => {
@@ -122,7 +87,7 @@ const handleSubmit = () => {
       {{ errorMessage }}
     </div>
 
-    <Button
+    <ButtonForm
       type="submit"
       :text="loading ? t('login.submitting') : t('login.submit')"
       :loading="loading"

@@ -56,7 +56,7 @@
     "email_required": "Email obbligatoria",
     "email_invalid": "Email non valida",
     "password_required": "Password obbligatoria",
-    "password_too_short": "Password troppo corta (min 6 caratteri)",
+    "password_too_short": "Password troppo corta (min 8 caratteri)",
     "username_required": "Nome utente obbligatorio",
     "username_too_short": "Nome utente troppo corto (min 3 caratteri)",
     "confirm_password_required": "Conferma password obbligatoria",

@@ -39,7 +39,10 @@ api.interceptors.response.use(
   (response: AxiosResponse) => response.data, // Da verificare quando il Server risponde con dati 200 / 201
 
   (error: AxiosError<ApiError>) => {
-    if (error.response?.status === 401) {
+    const requestUrl = error.config?.url ?? ''
+    const isAuthRequest = requestUrl.includes('/login') || requestUrl.includes('/logout')
+
+    if (error.response?.status === 401 && !isAuthRequest) {
       localStorage.removeItem(TOKEN_KEY)
       if (typeof window !== 'undefined' && window.location?.pathname !== '/login') {
         window.location.href = '/login'

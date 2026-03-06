@@ -4,6 +4,8 @@ export interface Book {
   id: number
   title: string
   authors: Author[]
-  price: string
-  publishedAt: string
+  price: number
+  plot: string
+  published_at: string | null
+  collection_id: number
 }

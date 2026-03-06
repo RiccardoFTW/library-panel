@@ -13,7 +13,7 @@ const formatDate = (dateString: string): string => {
 }
 
 const formatAuthors = (authors: Book['authors']): string => {
-  return authors.map((a) => `${a.firstName} ${a.lastName}`).join(', ')
+  return authors.map((a) => `${a.first_name} ${a.last_name}`).join(', ')
 }
 
 const getPlaceholderColor = (id: number): string => {
@@ -57,7 +57,7 @@ const getPlaceholderColor = (id: number): string => {
       <div class="flex justify-between items-center mt-4 pt-4 border-t border-gray-100">
         <span class="text-gray-400 text-sm flex items-center gap-1">
           <span v-html="icons.calendar" class="w-4 h-4"></span>
-          {{ formatDate(book.publishedAt) }}
+          {{ book.published_at ? formatDate(book.published_at) : '-' }}
         </span>
         <span class="font-bold text-green-600 text-lg">€ {{ book.price }}</span>
       </div>

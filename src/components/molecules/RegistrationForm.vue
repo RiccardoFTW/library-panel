@@ -5,14 +5,14 @@ import type { ApiError } from '@/services/api'
 const { t } = useI18n()
 
 const formData = reactive({
-  username: '',
+  name: '',
   email: '',
   password: '',
   confirmPassword: '',
 })
 
 const errors = reactive({
-  username: '',
+  name: '',
   email: '',
   password: '',
   confirmPassword: '',
@@ -21,19 +21,18 @@ const errors = reactive({
 const errorMessage = ref('')
 const loading = ref(false)
 
-// Validazione
 const validate = (): boolean => {
   let isValid = true
-  errors.username = ''
+  errors.name = ''
   errors.email = ''
   errors.password = ''
   errors.confirmPassword = ''
 
-  if (!formData.username) {
-    errors.username = t('validation.username_required')
+  if (!formData.name) {
+    errors.name = t('validation.username_required')
     isValid = false
-  } else if (formData.username.length < 3) {
-    errors.username = t('validation.username_too_short')
+  } else if (formData.name.length < 3) {
+    errors.name = t('validation.username_too_short')
     isValid = false
   }
 
@@ -48,7 +47,7 @@ const validate = (): boolean => {
   if (!formData.password) {
     errors.password = t('validation.password_required')
     isValid = false
-  } else if (formData.password.length < 6) {
+  } else if (formData.password.length < 8) {
     errors.password = t('validation.password_too_short')
     isValid = false
   }
@@ -64,7 +63,6 @@ const validate = (): boolean => {
   return isValid
 }
 
-// Submit
 const handleSubmit = () => {
   errorMessage.value = ''
 
@@ -74,13 +72,18 @@ const handleSubmit = () => {
 
   loading.value = true
 
-  signup(formData)
+  signup({
+    name: formData.name,
+    email: formData.email,
+    password: formData.password,
+    role: 'user',
+  })
     .then((response) => {
       console.log(t('register.success'), response.data)
     })
     .catch((error: ApiError) => {
       console.log(t('register.error'), error)
-      errorMessage.value = error.error || t('register.error_generic')
+      errorMessage.value = error.error || error.message || t('register.error_generic')
     })
     .finally(() => {
       loading.value = false
@@ -104,11 +107,11 @@ const handleSubmit = () => {
 
     <div class="register-form__fields">
       <InputField
-        v-model="formData.username"
+        v-model="formData.name"
         type="text"
         :label="t('register.username')"
         :placeholder="t('register.username_placeholder')"
-        :error="errors.username"
+        :error="errors.name"
       />
 
       <InputField
@@ -136,7 +139,7 @@ const handleSubmit = () => {
       />
     </div>
 
-    <Button
+    <ButtonForm
       type="submit"
       :text="loading ? t('register.submitting') : t('register.submit')"
       :loading="loading"

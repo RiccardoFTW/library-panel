@@ -1,16 +1,12 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
 import { getBooks, type PaginatedResponse } from '@/services/BookService'
 import type { Book } from '@/types/books'
-import ButtonGroup from '@/components/atoms/ButtonGroup.vue'
-import BooksPagination from '../atoms/BooksPagination.vue'
-import BookCard from '@/components/molecules/BookCard.vue'
-import BookListItem from '@/components/molecules/BookListItem.vue'
 import { icons } from '@/components/icons/icons'
 
 const books = ref<Book[]>([])
 const meta = ref<PaginatedResponse<Book>['meta'] | null>(null)
 const loading = ref(false)
+const errorMsg = ref('')
 const search = ref('')
 const viewMode = ref('card')
 const viewOptions = [
@@ -19,15 +15,26 @@ const viewOptions = [
 ]
 const currentPage = ref(1)
 
-const loadBooks = () => {
+const loadBooks = async () => {
   loading.value = true
-  const response = getBooks({ page: currentPage.value, perpage: 3, search: search.value })
-  books.value = response.data
-  meta.value = response.meta
-  loading.value = false
+  errorMsg.value = ''
+  try {
+    const response = await getBooks({
+      page: currentPage.value,
+      perpage: 3,
+      search: search.value,
+    })
+    books.value = response.data
+    meta.value = response.meta
+  } catch (error: unknown) {
+    const apiErr = error as { message?: string }
+    errorMsg.value = apiErr?.message || 'Errore nel caricamento dei libri'
+    console.error('Errore nel caricamento libri:', error)
+  } finally {
+    loading.value = false
+  }
 }
 
-// Watch
 watch(search, () => {
   currentPage.value = 1
   loadBooks()
@@ -51,6 +58,10 @@ watch(
         placeholder="Cerca..."
         class="w-64 px-4 py-2 border border-gray-400 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-800"
       />
+    </div>
+
+    <div v-if="errorMsg" class="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
+      {{ errorMsg }}
     </div>
 
     <div class="mb-6 flex justify-end">

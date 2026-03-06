@@ -15,7 +15,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <button :type="type" :class="['btn-form', `btn-form--${variant}`]" :disabled="loading">
+  <button :type="type" :class="[`btn-form${variant ? `--${variant}` : ''}`]" :disabled="loading">
     <span v-if="loading" class="btn-form__spinner"></span>
     <slot>{{ text }}</slot>
   </button>
