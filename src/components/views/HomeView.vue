@@ -15,12 +15,12 @@ const viewOptions = [
 ]
 const currentPage = ref(1)
 
-const loadBooks = async () => {
+const loadBooks = async (page?: number) => {
   loading.value = true
   errorMsg.value = ''
   try {
     const response = await getBooks({
-      page: currentPage.value,
+      page: page ?? currentPage.value,
       perpage: 3,
       search: search.value,
     })
@@ -39,25 +39,15 @@ watch(search, () => {
   currentPage.value = 1
   loadBooks()
 })
-watch(
-  currentPage,
-  () => {
-    loadBooks()
-  },
-  { immediate: true },
-)
 </script>
 
 <template>
   <div class="p-6">
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-3xl font-bold">Catalogo Libri</h1>
-      <input
-        v-model="search"
-        type="text"
-        placeholder="Cerca..."
-        class="w-64 px-4 py-2 border border-gray-400 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-800"
-      />
+      <!-- TODO: Da rendere componente, con l'emit e il listener in modo da togliere il watch qui  @update="() => loadBooks(1)" -->
+      <input v-model="search" type="text" placeholder="Cerca..."
+        class="w-64 px-4 py-2 border border-gray-400 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-800" />
     </div>
 
     <div v-if="errorMsg" class="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
@@ -69,10 +59,7 @@ watch(
     </div>
 
     <!-- Card -->
-    <div
-      v-if="!loading && viewMode === 'card'"
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-    >
+    <div v-if="!loading && viewMode === 'card'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <BookCard v-for="book in books" :key="book.id" :book="book" />
     </div>
 
@@ -82,10 +69,7 @@ watch(
     </div>
 
     <!-- Pagination -->
-    <BooksPagination
-      v-if="meta && meta.last_page"
-      v-model:currentPage="currentPage"
-      :lastPage="meta.last_page"
-    />
+    <BooksPagination v-if="meta && meta.last_page" v-model:currentPage="currentPage" :lastPage="meta.last_page"
+      @update="loadBooks" />
   </div>
 </template>
