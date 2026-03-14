@@ -24,6 +24,8 @@ declare module 'vue' {
     HeroView: typeof import('./components/views/HeroView.vue')['default']
     HomeView: typeof import('./components/views/HomeView.vue')['default']
     InputField: typeof import('./components/atoms/InputField.vue')['default']
+    ListPagination: typeof import('./components/atoms/ListPagination.vue')['default']
+    ListSearch: typeof import('./components/atoms/ListSearch.vue')['default']
     LoginForm: typeof import('./components/molecules/LoginForm.vue')['default']
     LoginView: typeof import('./components/views/auth/LoginView.vue')['default']
     PublicNavbar: typeof import('./components/molecules/PublicNavbar.vue')['default']

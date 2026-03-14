@@ -4,20 +4,35 @@ interface Props {
   text?: string
   variant?: 'primary' | 'secondary'
   loading?: boolean
+  loadingText?: string
+  resource?: string
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   type: 'button',
   text: 'Click',
   variant: 'primary',
   loading: false,
+  loadingText: '',
+  resource: '',
 })
+const { t } = useI18n()
+
+const getButtonText = () => {
+  let result = ''
+  if (props.loading) {
+    result = props.loadingText ?? `${props.resource}.submitting`
+  } else {
+    result = props.text ?? `${props.resource}.submit`
+  }
+  return t(result)
+}
 </script>
 
 <template>
   <button :type="type" :class="[`btn-form${variant ? `--${variant}` : ''}`]" :disabled="loading">
-    <span v-if="loading" class="btn-form__spinner"></span>
-    <slot>{{ text }}</slot>
+    <span v-if="loading" class="btn-form__spinner" />
+    <slot>{{ getButtonText() }}</slot>
   </button>
 </template>
 

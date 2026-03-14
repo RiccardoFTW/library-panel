@@ -17,7 +17,7 @@ const search = ref('')
 const loadBooks = () => {
   fetchAll({
     page: currentPage.value,
-    perpage: 3,
+    perpage: 30,
     search: search.value,
   })
 }
@@ -62,11 +62,7 @@ loadBooks()
     </div>
 
     <!-- Pagination -->
-    <ListPagination
-      v-if="meta && meta.last_page > 1"
-      :current-page="currentPage"
-      :last-page="meta.last_page"
-      @change-page="onPageChange"
-    />
+    <ListPagination v-if="meta && meta.last_page > 1" :current-page="currentPage" :last-page="meta.last_page"
+      @change-page="onPageChange" />
   </div>
 </template>

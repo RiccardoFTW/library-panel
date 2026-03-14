@@ -1,10 +1,20 @@
 <script setup lang="ts">
 import FieldMessage from './FieldMessage.vue'
 
+const { t } = useI18n()
+
 defineProps({
   type: {
     type: String,
     default: 'text',
+  },
+  name: {
+    type: String,
+    default: '',
+  },
+  resource: {
+    type: String,
+    default: '',
   },
   placeholder: {
     type: String,
@@ -18,9 +28,13 @@ defineProps({
     type: String,
     default: '',
   },
-  error: {
-    type: String,
-    default: '',
+  showLabel: {
+    type: Boolean,
+    default: true,
+  },
+  errors: {
+    type: Object,
+    default: () => { },
   },
 })
 defineEmits(['update:modelValue'])
@@ -28,17 +42,13 @@ defineEmits(['update:modelValue'])
 
 <template>
   <div class="input-field">
-    <label v-if="label" class="input-field__label">
-      {{ label }}
+    <label v-if="showLabel" class="input-field__label">
+      {{ label ?? t(`${resource}.${name}`) }}
     </label>
-    <input
-      :type="type"
-      :placeholder="placeholder"
-      :value="modelValue"
+    <input :type="type" :placeholder="placeholder ?? t(`${resource}.${name}._placeholder`)" :value="modelValue"
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-      :class="['input-field__input', { 'input-field__input--error': error }]"
-    />
-    <FieldMessage v-if="error" :message="error" />
+      :class="['input-field__input', { 'input-field__input--error': errors[name] }]" />
+    <FieldMessage v-if="errors[name]" :message="errors[name]" />
   </div>
 </template>
 

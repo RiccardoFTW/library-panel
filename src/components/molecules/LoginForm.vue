@@ -12,32 +12,34 @@ const formData = reactive({
   password: '',
 })
 
-const errors = ref({
-  email: '',
-  password: '',
-})
+// SPOSTARE questa interface un un file dove ci sono i types globali tipo utils o globalTypes...
+interface Errors {
+  _global?: string
+  [key: string]: string | undefined
+}
+
+const errors = ref<Errors>({})
+const formName = ref('login')
 
 const errorMessage = ref('')
 const loading = ref(false)
 
 const handleSubmit = () => {
   errorMessage.value = ''
-  errors.value = { email: '', password: '' }
+  errors.value = {}
 
   loading.value = true
 
   login(formData)
     .then((response: LoginResponse) => {
       console.log(t('login.success'), response.access_token)
-      router.push({ name: 'home' })
+      router.replace({ name: 'home' })
     })
     .catch((error: ApiError) => {
       console.error('Login fallito:', error)
-      if (error) {
-        errorMessage.value = error.error || error.message || 'Errore sconosciuto'
-        if (error.errors) {
-          errors.value = { email: '', password: '', ...error.errors }
-        }
+      errorMessage.value = error.error
+      if (error.errors) {
+        errors.value = error.errors
       }
     })
     .finally(() => {
@@ -54,45 +56,24 @@ const handleSubmit = () => {
     </div>
 
     <div class="login-form__fields">
-      <InputField
-        v-model="formData.email"
-        type="email"
-        :label="t('login.email')"
-        :placeholder="t('login.email_placeholder')"
-        :error="errors.email"
-      />
+      <InputField v-model="formData.email" :resource="formName" name="email" type="email" :errors="errors" />
 
-      <InputField
-        v-model="formData.password"
-        type="password"
-        :label="t('login.password')"
-        :placeholder="t('login.password_placeholder')"
-        :error="errors.password"
-      />
+      <InputField v-model="formData.password" :resource="formName" prefix="login" type="password" name="password"
+        :errors="errors" />
     </div>
 
     <!-- Da rendere Componente riutilizzabile con prop per la class... (warning, success, error) -->
     <div v-show="errorMessage" class="login-form__error">
       <!-- Icona e classe saranno props del componente del tipo `${classes}` che potrebbe essere is-error o is-success... -->
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="18"
-        height="18"
-        fill="currentColor"
-        viewBox="0 0 256 256"
-      >
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256">
         <path
-          d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z"
-        />
+          d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z" />
       </svg>
       {{ errorMessage }}
     </div>
 
-    <ButtonForm
-      type="submit"
-      :text="loading ? t('login.submitting') : t('login.submit')"
-      :loading="loading"
-    />
+    <ButtonForm resource="login" type="submit" :text="t('login.submit')" :loading-text="t('login.submitting')"
+      :loading="loading" />
   </form>
 </template>
 

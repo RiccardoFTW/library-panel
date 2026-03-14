@@ -10,11 +10,8 @@ const goToHome = () => {
 }
 
 const signout = async () => {
-  try {
-    await logout()
-  } catch {
-    // Anche se la chiamata API fallisce, facciamo logout lato client
-  }
+  await logout()
+
   router.push({ name: 'hero' })
 }
 </script>
