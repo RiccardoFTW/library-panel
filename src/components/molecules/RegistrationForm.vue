@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { signup } from '@/services/AuthService'
+import { useAuth } from '@/composables/useAuth'
 import type { ApiError } from '@/services/api'
+
+const { signup } = useAuth()
 
 const { t } = useI18n()
 

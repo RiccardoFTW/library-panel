@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { markRaw } from 'vue'
-import { isAuthenticated } from '@/services/AuthService'
 import { authGuard } from '@/middlewares/auth'
 
 import AuthLayout from '@/layouts/AuthLayout.vue'
@@ -60,13 +59,17 @@ const router = createRouter({
   ],
 })
 
-/**
- * NAVIGATION GUARD
- */
-router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth && !isAuthenticated()) {
+router.beforeEach(async (to, from, next) => {
+  const { useAuthStore } = await import('@/stores/auth_store')
+  const authStore = useAuthStore()
+
+  if (authStore.isAuthenticated && !authStore.user) {
+    await authStore.fetchUser()
+  }
+
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next({ name: 'login' })
-  } else if (to.meta.guest && isAuthenticated()) {
+  } else if (to.meta.guest && authStore.isAuthenticated) {
     next({ name: 'home' })
   } else {
     next()

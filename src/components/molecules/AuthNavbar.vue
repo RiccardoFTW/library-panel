@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { logout } from '@/services/AuthService'
+import { useAuth } from '@/composables/useAuth'
 
 const router = useRouter()
 const { t } = useI18n()
+const { logout } = useAuth()
 
 const goToHome = () => {
   router.push({ name: 'home' })

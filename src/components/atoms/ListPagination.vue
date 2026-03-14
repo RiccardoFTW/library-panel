@@ -8,7 +8,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'update:currentPage': [page: number]
+  'change-page': [page: number]
 }>()
 
 const pages = computed(() => {
@@ -21,7 +21,7 @@ const pages = computed(() => {
 
 const goToPage = (page: number) => {
   if (page >= 1 && page <= props.lastPage && page !== props.currentPage) {
-    emit('update:currentPage', page)
+    emit('change-page', page)
   }
 }
 </script>

@@ -1,8 +1,6 @@
 import axios from 'axios'
 import type { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
-
-// Chiave
-export const TOKEN_KEY = 'auth_token'
+import { getToken, removeToken } from './cookies'
 
 const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -12,10 +10,9 @@ const api: AxiosInstance = axios.create({
   },
 })
 
-/* INTERCEPTOR*/
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = localStorage.getItem(TOKEN_KEY)
+    const token = getToken()
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
@@ -28,7 +25,6 @@ api.interceptors.request.use(
   },
 )
 
-// Tipo per l'errore dell'API
 export interface ApiError {
   error: string
   errors?: Record<string, string>
@@ -36,14 +32,14 @@ export interface ApiError {
 }
 
 api.interceptors.response.use(
-  (response: AxiosResponse) => response.data, // Da verificare quando il Server risponde con dati 200 / 201
+  (response: AxiosResponse) => response.data,
 
   (error: AxiosError<ApiError>) => {
     const requestUrl = error.config?.url ?? ''
     const isAuthRequest = requestUrl.includes('/login') || requestUrl.includes('/logout')
 
     if (error.response?.status === 401 && !isAuthRequest) {
-      localStorage.removeItem(TOKEN_KEY)
+      removeToken()
       if (typeof window !== 'undefined' && window.location?.pathname !== '/login') {
         window.location.href = '/login'
       }

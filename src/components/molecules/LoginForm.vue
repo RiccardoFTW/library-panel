@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { login } from '@/services/AuthService'
+import { useAuth } from '@/composables/useAuth'
 import type { LoginResponse } from '@/types/auth'
 import type { ApiError } from '@/services/api'
 
 const { t } = useI18n()
 const router = useRouter()
+const { login } = useAuth()
 
 const formData = reactive({
   email: '',

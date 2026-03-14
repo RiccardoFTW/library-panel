@@ -1,53 +1,46 @@
 <script setup lang="ts">
-import { getBooks, type PaginatedResponse } from '@/services/BookService'
-import type { Book } from '@/types/books'
+import { useApi } from '@/composables/useApi'
+import { bookService } from '@/services/BookService'
 import { icons } from '@/components/icons/icons'
 
-const books = ref<Book[]>([])
-const meta = ref<PaginatedResponse<Book>['meta'] | null>(null)
-const loading = ref(false)
-const errorMsg = ref('')
-const search = ref('')
+const { items: books, meta, loading, error: errorMsg, fetchAll } = useApi(bookService)
+
 const viewMode = ref('card')
 const viewOptions = [
   { value: 'card', label: 'Card', icon: icons.grid },
   { value: 'list', label: 'Lista', icon: icons.list },
 ]
-const currentPage = ref(1)
 
-const loadBooks = async (page?: number) => {
-  loading.value = true
-  errorMsg.value = ''
-  try {
-    const response = await getBooks({
-      page: page ?? currentPage.value,
-      perpage: 3,
-      search: search.value,
-    })
-    books.value = response.data
-    meta.value = response.meta
-  } catch (error: unknown) {
-    const apiErr = error as { message?: string }
-    errorMsg.value = apiErr?.message || 'Errore nel caricamento dei libri'
-    console.error('Errore nel caricamento libri:', error)
-  } finally {
-    loading.value = false
-  }
+const currentPage = ref(1)
+const search = ref('')
+
+const loadBooks = () => {
+  fetchAll({
+    page: currentPage.value,
+    perpage: 3,
+    search: search.value,
+  })
 }
 
-watch(search, () => {
+const onPageChange = (page: number) => {
+  currentPage.value = page
+  loadBooks()
+}
+
+const onSearch = (query: string) => {
+  search.value = query
   currentPage.value = 1
   loadBooks()
-})
+}
+
+loadBooks()
 </script>
 
 <template>
   <div class="p-6">
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-3xl font-bold">Catalogo Libri</h1>
-      <!-- TODO: Da rendere componente, con l'emit e il listener in modo da togliere il watch qui  @update="() => loadBooks(1)" -->
-      <input v-model="search" type="text" placeholder="Cerca..."
-        class="w-64 px-4 py-2 border border-gray-400 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-800" />
+      <ListSearch :model-value="search" placeholder="Cerca..." @search="onSearch" />
     </div>
 
     <div v-if="errorMsg" class="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
@@ -69,7 +62,11 @@ watch(search, () => {
     </div>
 
     <!-- Pagination -->
-    <BooksPagination v-if="meta && meta.last_page" v-model:currentPage="currentPage" :lastPage="meta.last_page"
-      @update="loadBooks" />
+    <ListPagination
+      v-if="meta && meta.last_page > 1"
+      :current-page="currentPage"
+      :last-page="meta.last_page"
+      @change-page="onPageChange"
+    />
   </div>
 </template>
