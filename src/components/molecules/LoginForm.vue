@@ -7,7 +7,12 @@ const { t } = useI18n()
 const router = useRouter()
 const { login } = useAuth()
 
-const formData = reactive({
+interface FormData {
+  email: string
+  password: string
+}
+
+const formData = reactive<FormData>({
   email: '',
   password: '',
 })
@@ -23,6 +28,7 @@ const formName = ref('login')
 
 const errorMessage = ref('')
 const loading = ref(false)
+const successMessage = ref('')
 
 const handleSubmit = () => {
   errorMessage.value = ''
@@ -32,15 +38,15 @@ const handleSubmit = () => {
 
   login(formData)
     .then((response: LoginResponse) => {
-      console.log(t('login.success'), response.access_token)
-      router.replace({ name: 'home' })
+      successMessage.value = response.message || t('login.success')
+      setTimeout(() => {
+        successMessage.value = ''
+        router.replace({ name: 'home' })
+      }, 1500)
     })
     .catch((error: ApiError) => {
-      console.error('Login fallito:', error)
       errorMessage.value = error.error
-      if (error.errors) {
-        errors.value = error.errors
-      }
+      errors.value = error.errors ?? {}
     })
     .finally(() => {
       loading.value = false
@@ -56,49 +62,25 @@ const handleSubmit = () => {
     </div>
 
     <div class="login-form__fields">
-      <InputField
-        v-model="formData.email"
-        :resource="formName"
-        name="email"
-        type="email"
-        :errors="errors"
-        label="Email"
-      />
+      <InputField v-model="formData.email" :resource="formName" name="email" type="email" :errors="errors"
+        label="Email" />
 
-      <InputField
-        v-model="formData.password"
-        :resource="formName"
-        type="password"
-        name="password"
-        :errors="errors"
-        label="Password"
-      />
+      <InputField v-model="formData.password" :resource="formName" type="password" name="password" :errors="errors"
+        label="Password" />
     </div>
 
     <!-- Da rendere Componente riutilizzabile con prop per la class... (warning, success, error) -->
     <div v-show="errorMessage" class="login-form__error">
       <!-- Icona e classe saranno props del componente del tipo `${classes}` che potrebbe essere is-error o is-success... -->
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="18"
-        height="18"
-        fill="currentColor"
-        viewBox="0 0 256 256"
-      >
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256">
         <path
-          d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z"
-        />
+          d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z" />
       </svg>
       {{ errorMessage }}
     </div>
 
-    <ButtonForm
-      resource="login"
-      type="submit"
-      :text="t('login.submit')"
-      :loading-text="t('login.submitting')"
-      :loading="loading"
-    />
+    <ButtonForm resource="login" type="submit" :text="t('login.submit')" :loading-text="t('login.submitting')"
+      :loading="loading" />
   </form>
 </template>
 

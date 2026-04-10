@@ -33,7 +33,7 @@ const props = defineProps({
     default: true,
   },
   errors: {
-    type: Object,
+    type: Object as () => Record<string, Array<string> | string>,
     default: () => ({}),
   },
   error: {
@@ -60,30 +60,19 @@ const togglePasswordVisibility = () => {
       {{ label || t(`${resource}.${name}`) }}
     </label>
     <div class="input-field__control">
-      <input
-        :type="inputType"
-        :placeholder="placeholder || t(`${resource}.${name}_placeholder`)"
-        :value="modelValue"
-        @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-        :class="[
+      <input :type="inputType" :placeholder="placeholder || t(`${resource}.${name}_placeholder`)" :value="modelValue"
+        @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)" :class="[
           'input-field__input',
           {
             'input-field__input--error': errors?.[name] || error,
             'input-field__input--with-toggle': isPasswordField,
           },
-        ]"
-        :aria-invalid="Boolean(errors?.[name] || error)"
-      />
-      <button
-        v-if="isPasswordField"
-        type="button"
-        class="input-field__toggle"
-        @click="togglePasswordVisibility"
-      >
+        ]" :aria-invalid="!!errors.name?.[0]" />
+      <button v-if="isPasswordField" type="button" class="input-field__toggle" @click="togglePasswordVisibility">
         {{ isPasswordVisible ? 'Nascondi' : 'Mostra' }}
       </button>
     </div>
-    <FieldMessage v-if="errors?.[name] || error" :message="errors?.[name] || error" />
+    <FieldMessage v-for="err in errors?.[name]" :message="err" />
   </div>
 </template>
 
