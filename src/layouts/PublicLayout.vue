@@ -1,19 +1,18 @@
 <script setup lang="ts">
 import PublicNavbar from '@/components/molecules/PublicNavbar.vue'
-import bgImage from '@/assets/images/shadows-remix.webp'
+
+const route = useRoute()
+const isWelcomeRoute = computed(() => route.name === 'welcome')
 </script>
 
 <template>
   <div class="auth-layout">
-    <!-- Background Image -->
-    <div class="auth-layout__bg">
-      <img :src="bgImage" alt="" class="auth-layout__bg-img" />
-    </div>
-
+    <PublicNavbar />
     <div class="auth-layout__container">
-      <PublicNavbar />
-      <div class="auth-layout__card">
-        <router-view />
+      <div class="auth-layout__card" :class="{ 'auth-layout__card--plain': isWelcomeRoute }">
+        <div class="auth-layout__content">
+          <router-view />
+        </div>
       </div>
     </div>
   </div>
@@ -22,43 +21,42 @@ import bgImage from '@/assets/images/shadows-remix.webp'
 <style scoped lang="scss">
 .auth-layout {
   min-height: 100vh;
-  background: var(--color-bg);
+  background: var(--surface-page);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: clamp(var(--space-4), 2.6vw, var(--space-6));
   position: relative;
-  overflow: hidden;
-
-  &__bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-  }
-
-  &__bg-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.6;
-  }
+  color: var(--text-primary);
 
   &__container {
     width: 100%;
-    max-width: 440px;
+    max-width: 460px;
     position: relative;
-    z-index: 10;
+    z-index: 5;
   }
 
   &__card {
-    background: rgba(26, 23, 20, 0.85);
-    backdrop-filter: blur(12px);
-    border-radius: 1.5rem;
-    border: 1px solid rgba(245, 240, 232, 0.1);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    position: relative;
+    background: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    box-shadow: 0 4px 20px rgba(32, 38, 45, 0.06);
+    overflow: hidden;
+
+    &--plain {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      overflow: visible;
+    }
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    padding-block: var(--space-1);
   }
 }
 </style>

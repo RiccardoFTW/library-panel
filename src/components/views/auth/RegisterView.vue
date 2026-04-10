@@ -18,26 +18,29 @@ const { t } = useI18n()
 
 <style scoped lang="scss">
 .register-view {
+  padding: var(--space-1) var(--space-2) var(--space-4);
+
   &__footer {
-    padding: 1.5rem 2rem;
+    padding: var(--space-4) var(--space-5) var(--space-4);
     text-align: center;
-    border-top: 1px solid rgba(245, 240, 232, 0.1);
   }
 
   &__text {
     font-family: var(--font-body);
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
+    font-size: 0.8125rem;
+    line-height: var(--lh-snug);
+    color: var(--text-muted);
+    margin: 0;
   }
 
   &__link {
-    color: var(--color-accent);
-    font-weight: 500;
+    color: var(--text-secondary);
+    font-weight: 600;
     text-decoration: none;
-    transition: color 0.3s var(--ease-smooth);
+    transition: color 0.2s ease;
 
     &:hover {
-      color: var(--color-accent-light);
+      color: var(--text-primary);
     }
   }
 }

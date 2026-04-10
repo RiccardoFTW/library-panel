@@ -10,16 +10,16 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="inline-flex rounded-lg border border-gray-300 overflow-hidden">
+  <div class="inline-flex overflow-hidden rounded-lg border border-(--border-subtle) bg-(--surface-card)">
     <button
       v-for="option in options"
       :key="option.value"
       type="button"
       :class="[
-        'px-4 py-2 text-sm font-medium transition-colors flex items-center gap-2',
+        'flex items-center gap-2 px-3 py-2 text-sm font-medium transition-colors',
         modelValue === option.value
-          ? 'bg-gray-800 text-white'
-          : 'bg-gray-300 text-gray-700 hover:bg-gray-300',
+          ? 'bg-(--accent-primary) text-white'
+          : 'bg-(--surface-card) text-(--text-secondary) hover:bg-(--surface-muted)',
       ]"
       @click="emit('update:modelValue', option.value)"
     >

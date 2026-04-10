@@ -30,7 +30,7 @@ const getButtonText = () => {
 </script>
 
 <template>
-  <button :type="type" :class="[`btn-form${variant ? `--${variant}` : ''}`]" :disabled="loading">
+  <button :type="type" :class="['btn-form', `btn-form--${variant}`]" :disabled="loading">
     <span v-if="loading" class="btn-form__spinner" />
     <slot>{{ getButtonText() }}</slot>
   </button>
@@ -39,14 +39,15 @@ const getButtonText = () => {
 <style scoped lang="scss">
 .btn-form {
   width: 100%;
-  padding: 1rem 1.5rem;
+  padding: var(--space-2) var(--space-4);
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: 0.875rem;
+  line-height: var(--lh-snug);
   font-weight: 600;
-  border: 2px solid transparent;
-  border-radius: 9999px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
   cursor: pointer;
-  transition: all 0.3s var(--ease-smooth);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,33 +55,29 @@ const getButtonText = () => {
   letter-spacing: 0.02em;
 
   &:disabled {
-    opacity: 0.7;
+    opacity: 0.65;
     cursor: not-allowed;
   }
 
   &--primary {
-    background: var(--color-accent);
-    color: var(--color-bg);
-    border-color: var(--color-accent);
+    background: var(--accent-primary);
+    color: #ffffff;
+    border-color: var(--accent-primary);
 
     &:hover:not(:disabled) {
-      background: var(--color-accent-light);
-      border-color: var(--color-accent-light);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(201, 169, 98, 0.3);
+      background: var(--accent-primary-hover);
+      border-color: var(--accent-primary-hover);
     }
   }
 
   &--secondary {
-    background: transparent;
-    color: var(--color-text);
-    border-color: var(--color-text-muted);
+    background: var(--accent-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-subtle);
 
     &:hover:not(:disabled) {
-      background: var(--color-text);
-      color: var(--color-bg);
-      border-color: var(--color-text);
-      transform: translateY(-2px);
+      background: #dce2e9;
+      border-color: var(--border-strong);
     }
   }
 

@@ -22,6 +22,7 @@ const errors = reactive({
 
 const errorMessage = ref('')
 const loading = ref(false)
+const successMessage = ref('')
 
 const validate = (): boolean => {
   let isValid = true
@@ -67,6 +68,7 @@ const validate = (): boolean => {
 
 const handleSubmit = () => {
   errorMessage.value = ''
+  successMessage.value = ''
 
   if (!validate()) {
     return
@@ -82,6 +84,7 @@ const handleSubmit = () => {
   })
     .then((response) => {
       console.log(t('register.success'), response.data)
+      successMessage.value = t('register.success')
     })
     .catch((error: ApiError) => {
       console.log(t('register.error'), error)
@@ -101,17 +104,39 @@ const handleSubmit = () => {
     </div>
 
     <div v-if="errorMessage" class="register-form__error">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256">
-        <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z"></path>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        fill="currentColor"
+        viewBox="0 0 256 256"
+      >
+        <path
+          d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z"
+        ></path>
       </svg>
       {{ errorMessage }}
+    </div>
+    <div v-if="successMessage" class="register-form__success">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        fill="currentColor"
+        viewBox="0 0 256 256"
+      >
+        <path
+          d="M229.66,77.66l-96,96a8,8,0,0,1-11.32,0l-48-48a8,8,0,0,1,11.32-11.32L128,156.69l90.34-90.35a8,8,0,0,1,11.32,11.32Z"
+        />
+      </svg>
+      {{ successMessage }}
     </div>
 
     <div class="register-form__fields">
       <InputField
         v-model="formData.name"
         type="text"
-        :label="t('register.username')"
+        label="Nome utente"
         :placeholder="t('register.username_placeholder')"
         :error="errors.name"
       />
@@ -119,7 +144,7 @@ const handleSubmit = () => {
       <InputField
         v-model="formData.email"
         type="email"
-        :label="t('register.email')"
+        label="Email"
         :placeholder="t('register.email_placeholder')"
         :error="errors.email"
       />
@@ -127,7 +152,7 @@ const handleSubmit = () => {
       <InputField
         v-model="formData.password"
         type="password"
-        :label="t('register.password')"
+        label="Password"
         :placeholder="t('register.password_placeholder')"
         :error="errors.password"
       />
@@ -135,7 +160,7 @@ const handleSubmit = () => {
       <InputField
         v-model="formData.confirmPassword"
         type="password"
-        :label="t('register.confirm_password')"
+        label="Conferma password"
         :placeholder="t('register.confirm_password_placeholder')"
         :error="errors.confirmPassword"
       />
@@ -151,42 +176,69 @@ const handleSubmit = () => {
 
 <style scoped lang="scss">
 .register-form {
-  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-5) var(--space-4);
 
   &__header {
     text-align: center;
-    margin-bottom: 2rem;
   }
 
   &__title {
     font-family: var(--font-display);
-    font-size: 2rem;
-    color: var(--color-text);
-    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+    font-size: clamp(1.35rem, 3.6vw, 1.55rem);
+    color: var(--text-primary);
+    line-height: var(--lh-tight);
+    margin: 0 0 var(--space-2);
   }
 
   &__subtitle {
     font-family: var(--font-body);
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    line-height: var(--lh-snug);
+    color: var(--text-muted);
+    margin: 0;
   }
 
   &__error {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.875rem 1rem;
-    margin-bottom: 1.5rem;
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    border-radius: 0.75rem;
-    color: #f87171;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    margin: 0;
+    background: var(--danger-soft);
+    border: 1px solid #eccccc;
+    border-radius: var(--radius-control);
+    color: var(--danger);
     font-family: var(--font-body);
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
+    line-height: var(--lh-snug);
+  }
+
+  &__success {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    margin: 0;
+    background: var(--success-soft);
+    border: 1px solid #cde4d5;
+    border-radius: var(--radius-control);
+    color: var(--success);
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    line-height: var(--lh-snug);
   }
 
   &__fields {
-    margin-bottom: 1.5rem;
+    margin: 0;
+
+    :deep(.input-field:last-child) {
+      margin-bottom: 0;
+    }
   }
 }
 </style>

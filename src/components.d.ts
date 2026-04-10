@@ -15,13 +15,11 @@ declare module 'vue' {
     AuthNavbar: typeof import('./components/molecules/AuthNavbar.vue')['default']
     BookCard: typeof import('./components/molecules/BookCard.vue')['default']
     BookListItem: typeof import('./components/molecules/BookListItem.vue')['default']
-    BooksPagination: typeof import('./components/atoms/BooksPagination.vue')['default']
     BooksView: typeof import('./components/views/books/BooksView.vue')['default']
     BookView: typeof import('./components/views/books/BookView.vue')['default']
     ButtonForm: typeof import('./components/atoms/ButtonForm.vue')['default']
     ButtonGroup: typeof import('./components/atoms/ButtonGroup.vue')['default']
     FieldMessage: typeof import('./components/atoms/FieldMessage.vue')['default']
-    HeroView: typeof import('./components/views/HeroView.vue')['default']
     HomeView: typeof import('./components/views/HomeView.vue')['default']
     InputField: typeof import('./components/atoms/InputField.vue')['default']
     ListPagination: typeof import('./components/atoms/ListPagination.vue')['default']
@@ -33,5 +31,6 @@ declare module 'vue' {
     RegistrationForm: typeof import('./components/molecules/RegistrationForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    WelcomeView: typeof import('./components/views/auth/WelcomeView.vue')['default']
   }
 }

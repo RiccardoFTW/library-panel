@@ -1,15 +1,19 @@
 <script setup lang="ts">
 const router = useRouter()
+const route = useRoute()
 const { t } = useI18n()
 
-const goToHero = () => {
-  router.push({ name: 'hero' })
+const isWelcome = computed(() => route.name === 'welcome')
+
+/** Dalla login/registrazione torna alla schermata principale (scelta accedi / registrati). */
+const goToWelcome = () => {
+  router.push({ name: 'welcome' })
 }
 </script>
 
 <template>
-  <div class="public-navbar">
-    <button @click="goToHero" class="public-navbar__brand">
+  <div class="public-navbar" :class="{ 'public-navbar--hidden': isWelcome }">
+    <button type="button" class="public-navbar__brand" @click="goToWelcome">
       {{ t('common.library') }}
     </button>
   </div>
@@ -17,25 +21,35 @@ const goToHero = () => {
 
 <style scoped lang="scss">
 .public-navbar {
-  padding: 1.5rem 2rem;
+  position: fixed;
+  top: 1.1rem;
+  left: 1.2rem;
+  z-index: 20;
+  padding: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-bottom: 1px solid rgba(245, 240, 232, 0.1);
+  justify-content: flex-start;
+  background: transparent;
+  margin: 0;
+
+  &--hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
 
   &__brand {
     font-family: var(--font-display);
-    font-size: 1.75rem;
-    color: var(--color-text);
-    letter-spacing: 0.1em;
-    font-weight: 400;
+    font-size: clamp(1.2rem, 1.5vw, 1.35rem);
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    font-weight: 600;
     background: none;
     border: none;
     cursor: pointer;
-    transition: color 0.3s var(--ease-smooth);
+    transition: color 0.2s ease;
 
     &:hover {
-      color: var(--color-accent);
+      color: var(--text-muted);
     }
   }
 }

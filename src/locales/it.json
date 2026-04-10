@@ -4,24 +4,11 @@
     "register": "Registrati",
     "logout": "Logout",
     "home": "Home",
-    "library": "Library",
+    "library": "Library.",
     "scroll": "Scroll"
   },
-  "hero": {
-    "title_main": "Discover Your Next",
-    "title_accent": "Story",
-    "cta": "Inizia Ora",
-    "genres": {
-      "novel": "Romanzo",
-      "fantasy": "Fantasy",
-      "mystery": "Giallo",
-      "scifi": "Fantascienza",
-      "horror": "Horror",
-      "historical": "Storico"
-    }
-  },
   "login": {
-    "title": "Bentornato",
+    "title": "Bentornato.",
     "subtitle": "Accedi al tuo account",
     "email": "Email",
     "email_placeholder": "nome{'@'}esempio.com",
@@ -29,12 +16,12 @@
     "password_placeholder": "••••••••",
     "submit": "Accedi",
     "submitting": "Accesso in corso...",
-    "no_account": "Non hai un account?",
+    "no_account": "Nuovo alla libreria?",
     "go_to_register": "Registrati",
     "success": "Login riuscito"
   },
   "register": {
-    "title": "Crea Account",
+    "title": "Crea Account.",
     "subtitle": "Unisciti alla nostra biblioteca",
     "username": "Nome Utente",
     "username_placeholder": "Il tuo nome utente",
@@ -51,6 +38,11 @@
     "success": "Registrazione riuscita",
     "error": "Errore durante la registrazione",
     "error_generic": "Non è stato possibile completare la registrazione"
+  },
+  "welcome": {
+    "tagline": "Il modo migliore per gestire la tua libreria digitale.",
+    "cta_login": "Accedi",
+    "cta_register": "Registrati"
   },
   "validation": {
     "email_required": "Email obbligatoria",

@@ -26,38 +26,20 @@ defineProps<{
 
 <style scoped>
 .field-message {
-  .error {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-    margin-top: 0.5rem;
-    font-family: var(--font-body);
-    font-size: 0.8rem;
-    color: #f87171;
-  }
-  .success {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-    margin-top: 0.5rem;
-    font-family: var(--font-body);
-    font-size: 0.8rem;
-    color: #34d399;
-  }
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  line-height: var(--lh-snug);
+  color: var(--danger);
 }
 
 .field-icon {
-  .error {
-    width: 0.875rem;
-    height: 0.875rem;
-    flex-shrink: 0;
-    color: #f87171;
-  }
-  .success {
-    width: 0.875rem;
-    height: 0.875rem;
-    flex-shrink: 0;
-    color: #34d399;
-  }
+  width: 0.875rem;
+  height: 0.875rem;
+  flex-shrink: 0;
+  color: var(--danger);
 }
 </style>

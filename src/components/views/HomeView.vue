@@ -1,68 +1,232 @@
 <script setup lang="ts">
-import { useApi } from '@/composables/useApi'
 import { bookService } from '@/services/BookService'
-import { icons } from '@/components/icons/icons'
+import { createService } from '@/services/BaseService'
+import { SEARCH_DEBOUNCE_MS } from '@/constants/search'
 
-const { items: books, meta, loading, error: errorMsg, fetchAll } = useApi(bookService)
+const router = useRouter()
 
-const viewMode = ref('card')
-const viewOptions = [
-  { value: 'card', label: 'Card', icon: icons.grid },
-  { value: 'list', label: 'Lista', icon: icons.list },
-]
+const query = ref('')
+const searching = ref(false)
+const searchFeedback = ref('')
 
-const currentPage = ref(1)
-const search = ref('')
+const statsLoading = ref(true)
+const stats = reactive({
+  books: 0,
+  authors: 0,
+  collections: 0,
+  users: 0,
+})
 
-const loadBooks = () => {
-  fetchAll({
-    page: currentPage.value,
-    perpage: 30,
-    search: search.value,
-  })
+const fetchTotal = async (resource: string): Promise<number> => {
+  const service = createService<unknown>(resource)
+  const response = await service.getAll({ page: 1, perpage: 1 })
+  return Number(response.meta?.total ?? 0)
 }
 
-const onPageChange = (page: number) => {
-  currentPage.value = page
-  loadBooks()
+const loadStats = async () => {
+  statsLoading.value = true
+  try {
+    const [books, authors, collections, users] = await Promise.all([
+      fetchTotal('/books'),
+      fetchTotal('/authors'),
+      fetchTotal('/collections'),
+      fetchTotal('/users'),
+    ])
+
+    stats.books = books
+    stats.authors = authors
+    stats.collections = collections
+    stats.users = users
+  } finally {
+    statsLoading.value = false
+  }
 }
 
-const onSearch = (query: string) => {
-  search.value = query
-  currentPage.value = 1
-  loadBooks()
+let feedbackClearTimer: ReturnType<typeof setTimeout> | null = null
+
+/** Dopo una pausa in digitazione, nasconde il messaggio di errore (stesso intervallo del catalogo). */
+const scheduleClearFeedback = () => {
+  if (feedbackClearTimer) clearTimeout(feedbackClearTimer)
+  feedbackClearTimer = setTimeout(() => {
+    feedbackClearTimer = null
+    searchFeedback.value = ''
+  }, SEARCH_DEBOUNCE_MS)
 }
 
-loadBooks()
+const handleSearch = async () => {
+  const search = query.value.trim()
+  if (!search || searching.value) return
+
+  if (feedbackClearTimer) {
+    clearTimeout(feedbackClearTimer)
+    feedbackClearTimer = null
+  }
+
+  searching.value = true
+  searchFeedback.value = ''
+
+  try {
+    const response = await bookService.getAll({ search, page: 1, perpage: 1 })
+    const firstBook = response.data[0] as { id?: number } | undefined
+
+    if (!firstBook?.id) {
+      searchFeedback.value = 'Nessun libro trovato.'
+      return
+    }
+
+    await router.push({ name: 'books.show', params: { id: firstBook.id } })
+  } catch {
+    searchFeedback.value = 'Ricerca non disponibile al momento.'
+  } finally {
+    searching.value = false
+  }
+}
+
+onBeforeUnmount(() => {
+  if (feedbackClearTimer) clearTimeout(feedbackClearTimer)
+})
+
+loadStats()
 </script>
 
 <template>
-  <div class="p-6">
-    <div class="flex justify-between items-center mb-6">
-      <h1 class="text-3xl font-bold">Catalogo Libri</h1>
-      <ListSearch :model-value="search" placeholder="Cerca..." @search="onSearch" />
-    </div>
+  <section class="home-hub">
+    <div class="home-hub__panel">
+      <p class="home-hub__eyebrow">Home</p>
+      <h1 class="home-hub__title">Cerca subito un libro</h1>
 
-    <div v-if="errorMsg" class="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
-      {{ errorMsg }}
-    </div>
+      <form class="home-hub__search" @submit.prevent="handleSearch">
+        <input
+          v-model="query"
+          type="text"
+          placeholder="Titolo, autore, parola chiave..."
+          class="home-hub__input"
+          @input="scheduleClearFeedback"
+        />
+        <button type="submit" class="home-hub__button" :disabled="searching">
+          {{ searching ? 'Ricerca...' : 'Cerca' }}
+        </button>
+      </form>
 
-    <div class="mb-6 flex justify-end">
-      <ButtonGroup v-model="viewMode" :options="viewOptions" />
-    </div>
+      <p v-if="searchFeedback" class="home-hub__feedback">
+        {{ searchFeedback }}
+      </p>
 
-    <!-- Card -->
-    <div v-if="!loading && viewMode === 'card'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <BookCard v-for="book in books" :key="book.id" :book="book" />
+      <div class="home-hub__stats" :class="{ 'home-hub__stats--loading': statsLoading }">
+        <span
+          >Libri: <strong>{{ stats.books }}</strong></span
+        >
+        <span
+          >Autori: <strong>{{ stats.authors }}</strong></span
+        >
+        <span
+          >Collezioni: <strong>{{ stats.collections }}</strong></span
+        >
+        <span
+          >Utenti: <strong>{{ stats.users }}</strong></span
+        >
+      </div>
     </div>
-
-    <!-- List -->
-    <div v-if="!loading && viewMode === 'list'" class="space-y-3">
-      <BookListItem v-for="book in books" :key="book.id" :book="book" />
-    </div>
-
-    <!-- Pagination -->
-    <ListPagination v-if="meta && meta.last_page > 1" :current-page="currentPage" :last-page="meta.last_page"
-      @change-page="onPageChange" />
-  </div>
+  </section>
 </template>
+
+<style scoped lang="scss">
+.home-hub {
+  min-height: calc(100vh - 7rem);
+  display: grid;
+  place-items: center;
+  padding: var(--space-5) var(--space-4);
+
+  &__panel {
+    width: min(100%, 680px);
+  }
+
+  &__eyebrow {
+    margin: 0 0 var(--space-2);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  &__title {
+    margin: 0 0 var(--space-4);
+    font-family: var(--font-display);
+    font-size: clamp(1.65rem, 5.2vw, 2.35rem);
+    line-height: var(--lh-tight);
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+  }
+
+  &__search {
+    display: flex;
+    gap: var(--space-2);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    background: var(--surface-card);
+    padding: var(--space-2);
+  }
+
+  &__input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    line-height: var(--lh-snug);
+    padding: var(--space-2) var(--space-3);
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
+  }
+
+  &__button {
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
+    background: var(--surface-muted);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    line-height: var(--lh-snug);
+    padding: var(--space-2) var(--space-4);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background: var(--accent-primary-hover);
+      color: var(--surface-card);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__feedback {
+    margin: var(--space-2) 0 0;
+    font-size: 0.75rem;
+    color: var(--danger);
+  }
+
+  &__stats {
+    margin-top: var(--space-3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    font-size: 0.72rem;
+    line-height: var(--lh-snug);
+    color: var(--text-muted);
+
+    strong {
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    &--loading {
+      opacity: 0.65;
+    }
+  }
+}
+</style>
