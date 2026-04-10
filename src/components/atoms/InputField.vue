@@ -3,7 +3,7 @@ import FieldMessage from './FieldMessage.vue'
 
 const { t } = useI18n()
 
-defineProps({
+const props = defineProps({
   type: {
     type: String,
     default: 'text',
@@ -34,61 +34,104 @@ defineProps({
   },
   errors: {
     type: Object,
-    default: () => { },
+    default: () => ({}),
+  },
+  error: {
+    type: String,
+    default: '',
   },
 })
 defineEmits(['update:modelValue'])
+
+const isPasswordVisible = ref(false)
+const isPasswordField = computed(() => props.type === 'password')
+const inputType = computed(() => {
+  if (!isPasswordField.value) return props.type
+  return isPasswordVisible.value ? 'text' : 'password'
+})
+const togglePasswordVisibility = () => {
+  isPasswordVisible.value = !isPasswordVisible.value
+}
 </script>
 
 <template>
   <div class="input-field">
     <label v-if="showLabel" class="input-field__label">
-      {{ label ?? t(`${resource}.${name}`) }}
+      {{ label || t(`${resource}.${name}`) }}
     </label>
-    <input :type="type" :placeholder="placeholder ?? t(`${resource}.${name}._placeholder`)" :value="modelValue"
-      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-      :class="['input-field__input', { 'input-field__input--error': errors[name] }]" />
-    <FieldMessage v-if="errors[name]" :message="errors[name]" />
+    <div class="input-field__control">
+      <input
+        :type="inputType"
+        :placeholder="placeholder || t(`${resource}.${name}_placeholder`)"
+        :value="modelValue"
+        @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+        :class="[
+          'input-field__input',
+          {
+            'input-field__input--error': errors?.[name] || error,
+            'input-field__input--with-toggle': isPasswordField,
+          },
+        ]"
+        :aria-invalid="Boolean(errors?.[name] || error)"
+      />
+      <button
+        v-if="isPasswordField"
+        type="button"
+        class="input-field__toggle"
+        @click="togglePasswordVisibility"
+      >
+        {{ isPasswordVisible ? 'Nascondi' : 'Mostra' }}
+      </button>
+    </div>
+    <FieldMessage v-if="errors?.[name] || error" :message="errors?.[name] || error" />
   </div>
 </template>
 
 <style scoped lang="scss">
 .input-field {
-  margin-bottom: 1.25rem;
+  margin-bottom: var(--space-3);
 
   &__label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--space-2);
     font-family: var(--font-body);
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--color-text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  &__control {
+    position: relative;
   }
 
   &__input {
     width: 100%;
-    padding: 0.875rem 1rem;
+    padding: var(--space-2) var(--space-3);
     font-family: var(--font-body);
-    font-size: 1rem;
-    color: var(--color-text);
-    background: var(--color-bg);
-    border: 1px solid rgba(245, 240, 232, 0.15);
-    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    line-height: var(--lh-snug);
+    color: var(--text-primary);
+    background: var(--surface-control);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control);
     outline: none;
     transition: all 0.3s var(--ease-smooth);
 
     &::placeholder {
-      color: var(--color-text-muted);
-      opacity: 0.6;
+      color: var(--text-muted);
+      opacity: 0.85;
     }
 
     &:focus {
-      border-color: var(--color-accent);
-      box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.15);
+      border-color: var(--accent-primary);
+      background: #f7f9fb;
+      box-shadow: 0 0 0 3px rgba(61, 133, 193, 0.15);
     }
 
     &:hover:not(:focus) {
-      border-color: rgba(245, 240, 232, 0.3);
+      border-color: var(--border-strong);
     }
 
     &--error {
@@ -99,6 +142,25 @@ defineEmits(['update:modelValue'])
         box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.15);
       }
     }
+
+    &--with-toggle {
+      padding-right: 4.75rem;
+    }
+  }
+
+  &__toggle {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
   }
 }
 </style>

@@ -43,11 +43,22 @@ api.interceptors.response.use(
       if (typeof window !== 'undefined' && window.location?.pathname !== '/login') {
         window.location.href = '/login'
       }
-    } else if (error.response?.status === 422) {
-      console.error('Validation error:', error.response.data)
     }
-    console.log('API error:', error)
-    return Promise.reject(error.response?.data ?? { error: 'Network error' })
+
+    const data = error.response?.data
+    const genericMessage = data?.error ?? data?.message
+
+    if (genericMessage) {
+      console.error('[API] Error:', genericMessage)
+    }
+    if (data?.errors) {
+      console.error('[API] Field errors:', data.errors)
+    }
+    if (!data) {
+      console.error('[API] Network error:', error.message)
+    }
+
+    return Promise.reject(data ?? { error: 'Network error' })
   },
 )
 

@@ -25,7 +25,7 @@ const onInput = (event: Event) => {
     type="text"
     :value="modelValue"
     :placeholder="placeholder"
-    class="w-64 px-4 py-2 border border-gray-400 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-800"
+    class="w-64 rounded-lg border border-(--border-subtle) bg-(--surface-control) px-3 py-2 text-sm text-(--text-primary) outline-none transition-colors focus:border-(--accent-primary) focus:ring-2 focus:ring-[rgba(61,133,193,0.15)]"
     @input="onInput"
   />
 </template>

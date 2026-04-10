@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { icons } from '@/components/icons/icons'
+
+type PageItem = number | 'ellipsis'
 
 const props = defineProps<{
   currentPage: number
@@ -11,12 +12,37 @@ const emit = defineEmits<{
   'change-page': [page: number]
 }>()
 
-const pages = computed(() => {
-  const result: number[] = []
-  for (let i = 1; i <= props.lastPage; i++) {
-    result.push(i)
+const pageItems = computed((): PageItem[] => {
+  const cur = props.currentPage
+  const last = props.lastPage
+
+  if (last <= 5) {
+    return Array.from({ length: last }, (_, i) => i + 1)
   }
-  return result
+
+  const out: PageItem[] = []
+  const ell = () => {
+    if (out[out.length - 1] !== 'ellipsis') out.push('ellipsis')
+  }
+
+  out.push(1)
+
+  if (cur <= 4) {
+    for (let p = 2; p <= Math.min(4, last - 1); p++) out.push(p)
+    if (last > 5) ell()
+  } else if (cur >= last - 3) {
+    ell()
+    for (let p = last - 3; p <= last; p++) {
+      if (p > 1) out.push(p)
+    }
+  } else {
+    ell()
+    out.push(cur - 1, cur, cur + 1)
+    ell()
+  }
+
+  if (out[out.length - 1] !== last) out.push(last)
+  return out
 })
 
 const goToPage = (page: number) => {
@@ -27,35 +53,133 @@ const goToPage = (page: number) => {
 </script>
 
 <template>
-  <div class="flex justify-center items-center gap-2 mt-6">
+  <nav class="list-pagination" aria-label="Paginazione risultati">
     <button
+      type="button"
       :disabled="currentPage === 1"
-      class="p-2 rounded border disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 flex items-center justify-center"
+      class="list-pagination__nav list-pagination__nav--edge"
+      aria-label="Pagina precedente"
       @click="goToPage(currentPage - 1)"
     >
-      <span v-html="icons.chevronLeft" class="w-5 h-5"></span>
+      ‹
     </button>
 
-    <button
-      v-for="page in pages"
-      :key="page"
-      :class="[
-        'w-10 h-10 rounded border transition-colors flex items-center justify-center',
-        page === currentPage
-          ? 'bg-gray-800 text-white border-gray-800'
-          : 'bg-white text-gray-700 hover:bg-gray-100',
-      ]"
-      @click="goToPage(page)"
-    >
-      {{ page }}
-    </button>
+    <div class="list-pagination__pages" role="list">
+      <template v-for="(item, index) in pageItems" :key="`${item}-${index}`">
+        <span v-if="index > 0" class="list-pagination__sep" aria-hidden="true">-</span>
+
+        <span v-if="item === 'ellipsis'" class="list-pagination__ellipsis" aria-hidden="true"
+          >…</span
+        >
+
+        <button
+          v-else
+          type="button"
+          role="listitem"
+          class="list-pagination__page"
+          :class="{ 'list-pagination__page--current': item === currentPage }"
+          :aria-label="`Pagina ${item}`"
+          :aria-current="item === currentPage ? 'page' : undefined"
+          @click="goToPage(item)"
+        >
+          {{ item }}
+        </button>
+      </template>
+    </div>
 
     <button
+      type="button"
       :disabled="currentPage === lastPage"
-      class="p-2 rounded border disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 flex items-center justify-center"
+      class="list-pagination__nav list-pagination__nav--edge"
+      aria-label="Pagina successiva"
       @click="goToPage(currentPage + 1)"
     >
-      <span v-html="icons.chevronRight" class="w-5 h-5"></span>
+      ›
     </button>
-  </div>
+  </nav>
 </template>
+
+<style scoped lang="scss">
+.list-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  margin-top: var(--space-5);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+}
+
+.list-pagination__pages {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 var(--space-2);
+}
+
+.list-pagination__sep {
+  user-select: none;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.list-pagination__ellipsis {
+  user-select: none;
+  color: var(--text-muted);
+  padding: 0 var(--space-1);
+  font-weight: 400;
+}
+
+.list-pagination__nav {
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: var(--space-1) var(--space-2);
+  cursor: pointer;
+  border-radius: var(--radius-control);
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    color: var(--text-primary);
+    background: var(--surface-muted);
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+}
+
+.list-pagination__page {
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  min-width: 1.25rem;
+  padding: var(--space-1) 0;
+  cursor: pointer;
+  border-radius: var(--radius-control);
+  transition: color 0.15s ease;
+
+  &:hover:not(.list-pagination__page--current) {
+    color: var(--accent-primary);
+  }
+
+  &--current {
+    color: var(--text-primary);
+    font-weight: 700;
+    cursor: default;
+  }
+}
+</style>

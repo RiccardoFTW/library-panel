@@ -13,11 +13,7 @@ export const isAuthenticated = (): boolean => {
 }
 
 export const logout = async (): Promise<void> => {
-  try {
-    await api.delete('/logout')
-  } finally {
-    removeToken()
-  }
+  removeToken()
 }
 
 export const signup = async (signupData: SignupData): Promise<{ message: string; data: User }> => {

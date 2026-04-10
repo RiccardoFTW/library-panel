@@ -36,7 +36,6 @@ const handleSubmit = () => {
       router.replace({ name: 'home' })
     })
     .catch((error: ApiError) => {
-      console.error('Login fallito:', error)
       errorMessage.value = error.error
       if (error.errors) {
         errors.value = error.errors
@@ -55,66 +54,74 @@ const handleSubmit = () => {
       <p class="login-form__subtitle">{{ t('login.subtitle') }}</p>
     </div>
 
+    <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
+
     <div class="login-form__fields">
-      <InputField v-model="formData.email" :resource="formName" name="email" type="email" :errors="errors" />
+      <InputField
+        v-model="formData.email"
+        :resource="formName"
+        name="email"
+        type="email"
+        :errors="errors"
+        label="Email"
+      />
 
-      <InputField v-model="formData.password" :resource="formName" prefix="login" type="password" name="password"
-        :errors="errors" />
+      <InputField
+        v-model="formData.password"
+        :resource="formName"
+        type="password"
+        name="password"
+        :errors="errors"
+        label="Password"
+      />
     </div>
 
-    <!-- Da rendere Componente riutilizzabile con prop per la class... (warning, success, error) -->
-    <div v-show="errorMessage" class="login-form__error">
-      <!-- Icona e classe saranno props del componente del tipo `${classes}` che potrebbe essere is-error o is-success... -->
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256">
-        <path
-          d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z" />
-      </svg>
-      {{ errorMessage }}
-    </div>
-
-    <ButtonForm resource="login" type="submit" :text="t('login.submit')" :loading-text="t('login.submitting')"
-      :loading="loading" />
+    <ButtonForm
+      resource="login"
+      type="submit"
+      :text="t('login.submit')"
+      :loading-text="t('login.submitting')"
+      :loading="loading"
+    />
   </form>
 </template>
 
 <style scoped lang="scss">
 .login-form {
-  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-5) var(--space-4);
 
   &__header {
     text-align: center;
-    margin-bottom: 2rem;
   }
 
   &__title {
     font-family: var(--font-display);
-    font-size: 2rem;
-    color: var(--color-text);
-    margin-bottom: 0.5rem;
+    font-size: clamp(1.35rem, 3.6vw, 1.55rem);
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    font-weight: 600;
+    line-height: var(--lh-tight);
+    margin: 0 0 var(--space-2);
   }
 
   &__subtitle {
     font-family: var(--font-body);
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
-  }
-
-  &__error {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.875rem 1rem;
-    margin-bottom: 1.5rem;
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    border-radius: 0.75rem;
-    color: #f87171;
-    font-family: var(--font-body);
-    font-size: 0.875rem;
+    font-size: 0.8rem;
+    line-height: var(--lh-snug);
+    color: var(--text-muted);
+    margin: 0;
   }
 
   &__fields {
-    margin-bottom: 1.5rem;
+    margin: 0;
+    font-family: var(--font-body);
+
+    :deep(.input-field:last-child) {
+      margin-bottom: 0;
+    }
   }
 }
 </style>
