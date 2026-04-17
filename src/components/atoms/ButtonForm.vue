@@ -1,19 +1,19 @@
 <script setup lang="ts">
 interface Props {
   type?: 'button' | 'submit' | 'reset'
-  text?: string
   variant?: 'primary' | 'secondary'
   loading?: boolean
   loadingText?: string
+  text?: string
   resource?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   type: 'button',
-  text: 'Click',
   variant: 'primary',
   loading: false,
   loadingText: '',
+  text: '',
   resource: '',
 })
 const { t } = useI18n()
@@ -27,12 +27,14 @@ const getButtonText = () => {
   }
   return t(result)
 }
+
+getButtonText()
 </script>
 
 <template>
   <button :type="type" :class="['btn-form', `btn-form--${variant}`]" :disabled="loading">
     <span v-if="loading" class="btn-form__spinner" />
-    <slot>{{ getButtonText() }}</slot>
+    {{ getButtonText() }}
   </button>
 </template>
 

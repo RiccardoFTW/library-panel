@@ -33,7 +33,7 @@ const props = defineProps({
     default: true,
   },
   errors: {
-    type: Object,
+    type: Object as () => Record<string, Array<string> | string>,
     default: () => ({}),
   },
   error: {

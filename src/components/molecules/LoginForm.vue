@@ -7,7 +7,12 @@ const { t } = useI18n()
 const router = useRouter()
 const { login } = useAuth()
 
-const formData = reactive({
+interface FormData {
+  email: string
+  password: string
+}
+
+const formData = reactive<FormData>({
   email: '',
   password: '',
 })
@@ -23,6 +28,7 @@ const formName = ref('login')
 
 const errorMessage = ref('')
 const loading = ref(false)
+const successMessage = ref('')
 
 const handleSubmit = () => {
   errorMessage.value = ''
@@ -32,14 +38,15 @@ const handleSubmit = () => {
 
   login(formData)
     .then((response: LoginResponse) => {
-      console.log(t('login.success'), response.access_token)
-      router.replace({ name: 'home' })
+      successMessage.value = response.message || t('login.success')
+      setTimeout(() => {
+        successMessage.value = ''
+        router.replace({ name: 'home' })
+      }, 1500)
     })
     .catch((error: ApiError) => {
       errorMessage.value = error.error
-      if (error.errors) {
-        errors.value = error.errors
-      }
+      errors.value = error.errors ?? {}
     })
     .finally(() => {
       loading.value = false
